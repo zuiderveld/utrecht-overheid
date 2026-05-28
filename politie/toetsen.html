@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politie | Kennistoetsen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0c10; font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; color: #eef2ff; line-height: 1.5; }
+        .bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 30% 40%, #0f172a 0%, #0a0c10 100%); z-index: -2; }
+        .header { background: rgba(10, 12, 18, 0.95); backdrop-filter: blur(12px); border-bottom: 2px solid #0066ff; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo i { font-size: 2rem; color: #0066ff; }
+        .logo h1 { font-size: 1.4rem; font-weight: 700; }
+        .logo span { color: #0066ff; }
+        .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; text-decoration: none; }
+        .back-btn:hover { background: rgba(0,102,255,0.2); border-color: #0066ff; color: #0066ff; }
+        .hero { text-align: center; padding: 2rem 1rem; }
+        .hero h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .hero h2 span { color: #0066ff; }
+        .toetsen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .toets-card { background: rgba(0, 0, 0, 0.35); border-radius: 20px; padding: 1.3rem; border-left: 3px solid #ffaa33; transition: 0.2s; }
+        .toets-card:hover { transform: translateY(-5px); background: rgba(255,170,51,0.1); }
+        .toets-card h3 { color: #ffaa33; margin-bottom: 0.5rem; }
+        .toets-card .rang { display: inline-block; background: #0066ff20; padding: 3px 10px; border-radius: 20px; font-size: 0.7rem; margin: 0.5rem 0; }
+        .btn-toets { background: #ffaa33; color: #0a0c10; padding: 0.6rem 1rem; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; margin-top: 1rem; width: 100%; transition: 0.2s; }
+        .btn-toets:hover { background: #ffcc66; }
+        .score-badge { background: #00ff8820; color: #00ff88; padding: 0.2rem 0.7rem; border-radius: 20px; font-size: 0.7rem; display: inline-block; margin-top: 0.5rem; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: #141824; border-radius: 24px; padding: 2rem; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; border: 1px solid #ffaa33; }
+        .quiz-vraag { margin-bottom: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 16px; }
+        .quiz-vraag p { font-weight: 600; margin-bottom: 0.8rem; }
+        .quiz-optie { display: block; margin: 0.5rem 0; padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer; }
+        .quiz-optie:hover { background: rgba(0,102,255,0.2); }
+        .quiz-optie input { margin-right: 0.8rem; }
+        .btn-submit { background: #0066ff; color: white; border: none; padding: 0.8rem; border-radius: 30px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .close-modal { background: #ff3333; color: white; border: none; padding: 0.5rem 1rem; border-radius: 30px; cursor: pointer; margin-top: 1rem; width: 100%; }
+        .resultaat { text-align: center; padding: 1.5rem; background: rgba(0,102,255,0.2); border-radius: 16px; margin-top: 1rem; }
+        .certificaat-download { display: inline-block; background: #00ff88; color: #0a0c10; padding: 0.8rem 1.5rem; border-radius: 30px; text-decoration: none; font-weight: 600; margin-top: 1rem; border: none; cursor: pointer; }
+        footer { background: #06080c; text-align: center; padding: 2rem; margin-top: 3rem; border-top: 1px solid #0066ff30; font-size: 0.8rem; color: #6b7280; }
+        @media (max-width: 768px) { .toetsen-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="bg"></div>
+
+<header class="header">
+    <div class="container">
+        <div class="nav-flex">
+            <div class="logo"><i class="fas fa-clipboard-list"></i><h1>Politie | <span>Kennistoetsen</span></h1></div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Terug naar Dashboard</a>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="hero">
+        <h2>Kennistoetsen</h2>
+        <p><i class="fas fa-clipboard-list"></i> Toets je kennis per training | 80% = Certificaat</p>
+    </div>
+    <div class="toetsen-grid" id="toetsenGrid"></div>
+</main>
+
+<footer>
+    <p>© 2026 Overheid Portaal | Politie Divisie</p>
+</footer>
+
+<div id="quizModal" class="modal"><div class="modal-content"><h3 id="quizTitle"></h3><div id="quizQuestions"></div></div></div>
+
+<script>
+    const toetsen = [
+        { id: "basistraining", training: "Basistraining", rang: "Aspirant / IBT", beschrijving: "Etherdiscipline, statussen, fouilleren, staande houden, rechten & plichten",
+          vragen: [
+              { vraag: "Wat doe je bij Status 7?", opties: ["In dienst", "Spoed spraak (direct spreken toegestaan)", "Uit dienst", "Ter plaatse"], antwoord: 1 },
+              { vraag: "Wanneer mag je iemand fouilleren?", opties: ["Altijd", "Alleen bij aanhouding of verdenking van wapenbezit", "Als je dat wilt", "Als iemand boos kijkt"], antwoord: 1 },
+              { vraag: "Wat is de eerste stap bij een aanhouding?", opties: ["Handboeien omdoen", "Rechten voorlezen + reden aanhouding", "Wapens gebruiken", "Naar bureau brengen"], antwoord: 1 },
+              { vraag: "Wat is NIET toegestaan bij een achtervolging?", opties: ["Sirenes voeren", "PIT manoeuvre", "Schieten op vluchtend voertuig zonder levensgevaar", "Om hulp vragen via porto"], antwoord: 2 },
+              { vraag: "Wat doe je als een verdachte zwijgt?", opties: ["Dwingen te praten", "Zwijgrecht respecteren", "Celstraf geven", "Direct laten gaan"], antwoord: 1 }
+          ] },
+        { id: "offroad", training: "Offroad Training", rang: "Surveillant", beschrijving: "Offroad rijden, terrein navigatie en voertuigcontrole",
+          vragen: [
+              { vraag: "Wat is belangrijk bij offroad rijden?", opties: ["Hoge snelheid behouden", "Bandenspanning en voertuigcontrole", "Altijd met sirenes rijden", "Geen communicatie gebruiken"], antwoord: 1 },
+              { vraag: "Wat doe je bij een zoekactie in bosrijk terrein?", opties: ["Alleen verder gaan", "Koppelen met collega's en grid zoeken", "Willekeurig rondrijden", "Achtervolging starten"], antwoord: 1 },
+              { vraag: "Welk voertuig is geschikt voor offroad?", opties: ["Undercover auto", "Offroad voertuig / Terreinwagen", "Motor zonder aanpassingen", "Politie bus"], antwoord: 1 }
+          ] },
+        { id: "tactisch", training: "Tactische Weerbaarheid", rang: "Surveillant", beschrijving: "Dienstwapen, taser, wapenstok en de-escalatie",
+          vragen: [
+              { vraag: "Wanneer mag je je dienstwapen trekken?", opties: ["Bij elke discussie", "Alleen bij dreigende situatie en na waarschuwing", "Als je boos bent", "Bij een verkeersboete"], antwoord: 1 },
+              { vraag: "Wat is de-escalatie?", opties: ["Meer geweld gebruiken", "Situatie rustig proberen op te lossen met communicatie", "Weglopen", "Direct aanhouden"], antwoord: 1 },
+              { vraag: "Wat is een proportioneel geweldsmiddel bij verzet?", opties: ["Dienstwapen", "Wapenstok", "Taser", "Afhankelijk van de situatie, trap oplopend"], antwoord: 3 },
+              { vraag: "Wat is de eerste stap bij een verdachte met een mes?", opties: ["Direct schieten", "Afstand houden en praten", "Aanvallen", "Weg rennen"], antwoord: 1 }
+          ] },
+        { id: "rijtraining", training: "Rijtraining", rang: "Surveillant", beschrijving: "Stadsverkeer, sirenes, communicatie en noodstops",
+          vragen: [
+              { vraag: "Bij Prio 1 rit gebruik je:", opties: ["Alleen lampen", "Lampen + sirenes", "Normaal rijden", "Geen signalen"], antwoord: 1 },
+              { vraag: "Hoe communiceer je een noodstop?", opties: ["Niet, gewoon stoppen", "Porto: 'Noodstop, noodstop, noodstop'", "Zwaaien", "Claxon"], antwoord: 1 },
+              { vraag: "Wat is de juiste volgorde bij een noodstop?", opties: ["Remmen, dan porto", "Porto, dan remmen", "Alleen remmen", "Alarm aanzetten"], antwoord: 0 }
+          ] },
+        { id: "siv", training: "SIV Training", rang: "Agent", beschrijving: "SIV, hoge snelheid en positionering",
+          vragen: [
+              { vraag: "Wat is een SIV?", opties: ["Stille Interventie Voertuig", "Snel Interventie Voertuig", "Speciale Interventie", "Standaard Politie Auto"], antwoord: 1 },
+              { vraag: "Wat is belangrijk bij een SIV achtervolging?", opties: ["Alleen rijden", "Altijd koppelrijden en communicatie", "Geen porto gebruiken", "Sirenes uitzetten"], antwoord: 1 },
+              { vraag: "Wat is de maximale snelheid bij een SIV achtervolging?", opties: ["50 km/u", "100 km/u", "Afhankelijk van situatie en wegdek", "200 km/u"], antwoord: 2 }
+          ] },
+        { id: "motor", training: "Motor Training", rang: "Hoofdagent", beschrijving: "Motorrijden, veiligheid en verkeerscontrole",
+          vragen: [
+              { vraag: "Welke bescherming is verplicht op de motor?", opties: ["Alleen helm", "Helm, handschoenen, motorpak", "Niets", "Zonnebril"], antwoord: 1 },
+              { vraag: "Hoe stop je een motor veilig bij een achtervolging?", opties: ["Blokkeren", "Overhellen en remmen", "Springen", "Stoppen midden op de weg"], antwoord: 1 },
+              { vraag: "Wat is het grootste gevaar voor een motorrijder?", opties: ["Snelheid", "Andere weggebruikers die je over het hoofd zien", "Boetes", "Brandstof"], antwoord: 1 }
+          ] },
+        { id: "um", training: "UM Training", rang: "Brigadier", beschrijving: "Unmarked rijden, observatie en tactisch rijden",
+          vragen: [
+              { vraag: "Wat is een UM voertuig?", opties: ["Politie auto met opvallende kleuren", "Undercover / onopvallend politievoertuig", "Helikopter", "Motor met politie stickers"], antwoord: 1 },
+              { vraag: "Waar moet je op letten bij UM rijden?", opties: ["Opvallen", "Zo naturel mogelijk rijden", "Altijd sirenes voeren", "Andere auto's blokkeren"], antwoord: 1 },
+              { vraag: "Mag je als UM een achtervolging starten zonder backup?", opties: ["Ja, altijd", "Nee, nooit", "Alleen bij levensgevaar", "Alleen met toestemming"], antwoord: 1 }
+          ] },
+        { id: "onderhandelaar", training: "Onderhandelaar Training", rang: "Brigadier", beschrijving: "Crisiscommunicatie en onderhandelingstechnieken",
+          vragen: [
+              { vraag: "Wat is de eerste stap bij een gijzeling?", opties: ["Aanvallen", "Contact leggen en rustig blijven", "Weglopen", "Helikopter inzetten"], antwoord: 1 },
+              { vraag: "Wat is actief luisteren?", opties: ["Niet luisteren", "Samenvatten en doorvragen", "Alleen knikken", "Aantekeningen maken"], antwoord: 1 },
+              { vraag: "Wat is het doel van onderhandelen?", opties: ["Winnen", "Wederzijds acceptabele oplossing", "Tijdrekken", "Overtuigen"], antwoord: 1 }
+          ] },
+        { id: "zulu", training: "Zulu Training", rang: "Inspecteur", beschrijving: "Helikopter, luchtcoördinatie en zoekacties",
+          vragen: [
+              { vraag: "Wat is de rol van Zulu bij een achtervolging?", opties: ["Grondondersteuning", "Luchtsteun en coördinatie", "Arrestaties verrichten", "Forensisch onderzoek"], antwoord: 1 },
+              { vraag: "Hoe communiceer je met Zulu?", opties: ["Geen communicatie", "Porto / Speciaal luchtkanaal", "Alleen via telefoon", "Gebaarspraak"], antwoord: 1 },
+              { vraag: "Wat is een voordeel van luchtsteun?", opties: ["Snelheid", "Overzicht en coördinatie", "Stilte", "Verrassing"], antwoord: 1 }
+          ] },
+        { id: "ehbo", training: "EHBO Training", rang: "Alle rangen", beschrijving: "Eerste hulp, reanimatie en wondverzorging",
+          vragen: [
+              { vraag: "Wat is de eerste stap bij een slachtoffer?", opties: ["Weggaan", "Veiligheid checken + aanspreken", "Direct reanimeren", "112 bellen"], antwoord: 1 },
+              { vraag: "Hoe diep moet je masseren bij reanimatie?", opties: ["1-2 cm", "5-6 cm", "10 cm", "Lichtjes aanraken"], antwoord: 1 },
+              { vraag: "Wat doe je bij een bewusteloos slachtoffer dat ademt?", opties: ["In stabiele zijligging leggen", "Optillen", "Water geven", "Laten zitten"], antwoord: 0 },
+              { vraag: "Hoe vaak per minuut moet je borstcompressies geven?", opties: ["60-80", "100-120", "150-180", "200"], antwoord: 1 }
+          ] }
+    ];
+
+    let scores = JSON.parse(localStorage.getItem('politieToetsScores') || '{}');
+    let actieveToets = null;
+
+    function saveScore(toetsId, score, maxScore) {
+        scores[toetsId] = { score: score, max: maxScore, datum: new Date().toISOString() };
+        localStorage.setItem('politieToetsScores', JSON.stringify(scores));
+        loadToetsen();
+    }
+
+    function loadToetsen() {
+        const container = document.getElementById('toetsenGrid');
+        container.innerHTML = toetsen.map(toets => {
+            const score = scores[toets.id];
+            const isGeslaagd = score && (score.score / score.max >= 0.8);
+            return `<div class="toets-card"><i class="fas fa-clipboard-list" style="color:#ffaa33; font-size:1.8rem;"></i>
+                <h3>${toets.training}</h3><div class="rang"><i class="fas fa-tag"></i> ${toets.rang}</div>
+                <p style="font-size:0.8rem;">${toets.beschrijving}</p>
+                <div>${score ? `<span class="score-badge">✅ Score: ${score.score}/${score.max}</span>` : `<span class="score-badge" style="background:#ffaa3320; color:#ffaa33;">⏳ Nog niet gemaakt</span>`}
+                ${isGeslaagd ? `<span class="score-badge" style="background:#0066ff20; color:#0066ff;">📜 Certificaat</span>` : ''}</div>
+                <button class="btn-toets" onclick="openToets('${toets.id}')">${score ? '🔄 Opnieuw proberen' : '▶ Start Toets'}</button></div>`;
+        }).join('');
+    }
+
+    function openToets(toetsId) {
+        actieveToets = toetsen.find(t => t.id === toetsId);
+        document.getElementById('quizTitle').innerHTML = `<i class="fas fa-clipboard-list"></i> ${actieveToets.training} - Kennistoets`;
+        let html = '';
+        actieveToets.vragen.forEach((vraag, idx) => {
+            html += `<div class="quiz-vraag"><p><strong>${idx+1}. ${vraag.vraag}</strong></p>${vraag.opties.map((optie, optIdx) => `<label class="quiz-optie"><input type="radio" name="q${idx}" value="${optIdx}"> ${optie}</label>`).join('')}</div>`;
+        });
+        html += `<button class="btn-submit" onclick="submitQuiz()">Verzenden</button><button class="close-modal" onclick="closeQuizModal()">Sluiten</button>`;
+        document.getElementById('quizQuestions').innerHTML = html;
+        document.getElementById('quizModal').style.display = 'flex';
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        actieveToets.vragen.forEach((vraag, idx) => {
+            const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+            if (selected && parseInt(selected.value) === vraag.antwoord) score++;
+        });
+        const maxScore = actieveToets.vragen.length;
+        const percentage = Math.round(score / maxScore * 100);
+        saveScore(actieveToets.id, score, maxScore);
+        let resultHtml = `<div class="resultaat"><h3>Jouw score: ${score}/${maxScore} (${percentage}%)</h3>`;
+        if (percentage >= 80) resultHtml += `<p style="color:#00ff88;"><i class="fas fa-certificate"></i> Gefeliciteerd! Je bent geslaagd!</p><button class="certificaat-download" onclick="downloadCertificaat('${actieveToets.training}', ${score}, ${maxScore})"><i class="fas fa-download"></i> Download certificaat</button>`;
+        else resultHtml += `<p style="color:#ffaa33;"><i class="fas fa-book-open"></i> Helaas niet geslaagd. Probeer opnieuw.</p><button class="btn-submit" onclick="closeQuizModal()">Sluiten</button>`;
+        resultHtml += `</div>`;
+        document.getElementById('quizQuestions').innerHTML = resultHtml;
+    }
+
+    function downloadCertificaat(training, score, maxScore) {
+        const userName = sessionStorage.getItem('overheidUser') || 'Politie Agent';
+        const datum = new Date().toLocaleDateString('nl-NL');
+        const percentage = Math.round(score / maxScore * 100);
+        const html = `<html><head><title>Certificaat ${training}</title><style>body{font-family:Georgia;background:#f5f5f0;margin:40px;}.certificaat{max-width:800px;margin:0 auto;background:white;border:15px solid #0066ff;padding:40px;text-align:center;}h1{color:#0066ff;}h2{font-size:24px;}.naam{font-size:32px;font-weight:bold;border-bottom:1px solid #0066ff;display:inline-block;padding:0 20px;}</style></head><body><div class="certificaat"><h1>URP | Politie</h1><h2>Certificaat van Voldoening</h2><p>Hierbij wordt verklaard dat</p><div class="naam">${userName}</div><p>met succes de kennistoets heeft afgerond voor</p><h2>${training}</h2><p>Score: ${score}/${maxScore} (${percentage}%)</p><p>Datum: ${datum}</p><div class="handtekening">Korpsleiding URP Politie</div></div></body></html>`;
+        const blob = new Blob([html], { type: 'text/html' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `certificaat_${training.toLowerCase().replace(/ /g, '_')}.html`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+    }
+
+    function closeQuizModal() { document.getElementById('quizModal').style.display = 'none'; actieveToets = null; loadToetsen(); }
+    loadToetsen();
+</script>
+</body>
+</html>
