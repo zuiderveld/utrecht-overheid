@@ -1,0 +1,143 @@
+.wetboek-hero {
+    text-align: center;
+    padding: 2.5rem 1rem 1.5rem;
+}
+
+.wetboek-hero h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.wetboek-hero h2 span {
+    color: var(--wetboek-accent, #0066ff);
+}
+
+.wetboek-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+    font-size: 0.95rem;
+    color: #9ca3af;
+}
+
+.wetboek-tabs button {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    font: inherit;
+    transition: color 0.2s;
+}
+
+.wetboek-tabs button:hover,
+.wetboek-tabs button.active {
+    color: #eef2ff;
+}
+
+.wetboek-tabs button.active {
+    font-weight: 600;
+}
+
+.wetboek-tabs .sep {
+    color: #4b5563;
+    user-select: none;
+}
+
+.wetboek-card {
+    background: rgba(15, 20, 32, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem 1.75rem;
+    margin: 0 0 3rem;
+    overflow-x: auto;
+}
+
+.wetboek-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.wetboek-card-header .icon {
+    font-size: 1.35rem;
+}
+
+.wetboek-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+.wetboek-table thead th {
+    text-align: left;
+    color: var(--wetboek-accent, #0066ff);
+    font-weight: 600;
+    padding: 0.65rem 1rem 0.85rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wetboek-table thead th:last-child {
+    padding-right: 0;
+}
+
+.wetboek-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.wetboek-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.wetboek-table tbody td {
+    padding: 0.75rem 1rem 0.75rem 0;
+    vertical-align: top;
+    color: #e5e7eb;
+}
+
+.wetboek-table tbody td:first-child {
+    font-weight: 600;
+    white-space: nowrap;
+    color: #f3f4f6;
+}
+
+.wetboek-table tbody td:last-child {
+    padding-right: 0;
+    color: #d1d5db;
+}
+
+.wetboek-empty {
+    text-align: center;
+    color: #6b7280;
+    padding: 2rem 1rem;
+}
+
+@media (max-width: 640px) {
+    .wetboek-table thead {
+        display: none;
+    }
+    .wetboek-table tbody tr {
+        display: block;
+        padding: 0.75rem 0;
+    }
+    .wetboek-table tbody td {
+        display: block;
+        padding: 0.2rem 0;
+    }
+    .wetboek-table tbody td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.7rem;
+        color: var(--wetboek-accent, #0066ff);
+        text-transform: uppercase;
+        margin-bottom: 0.15rem;
+    }
+}

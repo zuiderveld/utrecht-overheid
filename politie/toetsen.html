@@ -75,6 +75,7 @@
 
 <div id="quizModal" class="modal"><div class="modal-content"><h3 id="quizTitle"></h3><div id="quizQuestions"></div></div></div>
 
+<script src="/js/certificaat-download.js"></script>
 <script>
     const toetsen = [
         { id: "basistraining", training: "Basistraining", rang: "Aspirant / IBT", beschrijving: "Etherdiscipline, statussen, fouilleren, staande houden, rechten & plichten",
@@ -195,19 +196,13 @@
     }
 
     function downloadCertificaat(training, score, maxScore) {
-        const userName = sessionStorage.getItem('overheidUser') || 'Politie Agent';
-        const datum = new Date().toLocaleDateString('nl-NL');
-        const percentage = Math.round(score / maxScore * 100);
-        const html = `<html><head>
-    <script src="/js/auth-guard-inline.js"></script>
-    <script src="/js/maintenance-check.js"></script>
-<title>Certificaat ${training}</title><style>body{font-family:Georgia;background:#f5f5f0;margin:40px;}.certificaat{max-width:800px;margin:0 auto;background:white;border:15px solid #0066ff;padding:40px;text-align:center;}h1{color:#0066ff;}h2{font-size:24px;}.naam{font-size:32px;font-weight:bold;border-bottom:1px solid #0066ff;display:inline-block;padding:0 20px;}</style></head><body><div class="certificaat"><h1>URP | Politie</h1><h2>Certificaat van Voldoening</h2><p>Hierbij wordt verklaard dat</p><div class="naam">${userName}</div><p>met succes de kennistoets heeft afgerond voor</p><h2>${training}</h2><p>Score: ${score}/${maxScore} (${percentage}%)</p><p>Datum: ${datum}</p><div class="handtekening">Korpsleiding URP Politie</div></div></body></html>`;
-        const blob = new Blob([html], { type: 'text/html' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `certificaat_${training.toLowerCase().replace(/ /g, '_')}.html`;
-        link.click();
-        URL.revokeObjectURL(link.href);
+        downloadOverheidCertificaat({
+            training, score, maxScore,
+            kleur: '#0066ff',
+            dienst: 'Politie',
+            handtekening: 'Korpsleiding URP Politie',
+            defaultUser: 'Politie Agent'
+        });
     }
 
     function closeQuizModal() { document.getElementById('quizModal').style.display = 'none'; actieveToets = null; loadToetsen(); }
