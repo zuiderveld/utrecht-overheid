@@ -325,20 +325,30 @@
         </div>
     </div>
 
-    <!-- 2. GOOGLE SPREADSHEET EMBED (eronder) -->
-    <div class="section">
+    <!-- 2. Trainingsoverzicht — alleen IBT + politie-admin (+ beheer) -->
+    <div class="section" id="trainingSpreadsheetSection" style="display:none">
         <div class="section-title">
             <i class="fas fa-table"></i>
             <h3>📊 TRAININGEN SPREADSHEET</h3>
         </div>
         <div class="spreadsheet-container">
-            <iframe class="spreadsheet-embed" src="https://docs.google.com/spreadsheets/d/1dWVAf0hz8xgVsdHXzwKix5g-eYQYHnQA1JyTqnsh1bc/preview?gid=0"></iframe>
+            <iframe class="spreadsheet-embed" id="trainingSpreadsheetFrame" title="Politie trainingsoverzicht" src="https://docs.google.com/spreadsheets/d/1dWVAf0hz8xgVsdHXzwKix5g-eYQYHnQA1JyTqnsh1bc/preview?gid=0"></iframe>
         </div>
         <div style="text-align: center;">
-            <a href="https://docs.google.com/spreadsheets/d/1dWVAf0hz8xgVsdHXzwKix5g-eYQYHnQA1JyTqnsh1bc/edit?gid=0" target="_blank" class="spreadsheet-link">
+            <a href="https://docs.google.com/spreadsheets/d/1dWVAf0hz8xgVsdHXzwKix5g-eYQYHnQA1JyTqnsh1bc/edit?gid=0" target="_blank" rel="noopener" class="spreadsheet-link" id="trainingSpreadsheetLink">
                 <i class="fas fa-external-link-alt"></i> Open Trainingsoverzicht in nieuw venster
             </a>
         </div>
+    </div>
+
+    <div class="section" id="trainingSpreadsheetDenied" style="display:none">
+        <div class="section-title">
+            <i class="fas fa-lock"></i>
+            <h3>Trainingsoverzicht</h3>
+        </div>
+        <p style="color:#9ca3af;text-align:center;padding:1rem 0;">
+            <i class="fas fa-info-circle"></i> Het trainingsoverzicht is alleen zichtbaar voor <strong>IBT</strong> en <strong>korpsleiding</strong>.
+        </p>
     </div>
 </main>
 
@@ -346,6 +356,20 @@
     <p>© 2026 Utrecht Roleplay - Politie Divisie | :police_officer: Training Overzicht Korps</p>
     <p style="margin-top: 0.5rem; font-size: 0.7rem;">Voor vragen over trainingen neem contact op met de Korpsleiding</p>
 </footer>
-<script>requireAuth('politie');</script>
+<script>
+    if (requireAuth('politie')) {
+        const allowed = typeof canViewPolitieTrainingSpreadsheet === 'function' && canViewPolitieTrainingSpreadsheet();
+        const section = document.getElementById('trainingSpreadsheetSection');
+        const denied = document.getElementById('trainingSpreadsheetDenied');
+        const frame = document.getElementById('trainingSpreadsheetFrame');
+        if (allowed && section) {
+            section.style.display = '';
+        } else {
+            if (frame) frame.removeAttribute('src');
+            if (section) section.style.display = 'none';
+            if (denied) denied.style.display = '';
+        }
+    }
+</script>
 </body>
 </html>

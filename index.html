@@ -337,6 +337,8 @@
                 sessionStorage.setItem('overheidDienst', data.dienst);
                 sessionStorage.setItem('overheidUser', data.username || 'Medewerker');
                 sessionStorage.setItem('overheidIsIbtDocent', data.isIbtDocent ? 'true' : 'false');
+                sessionStorage.setItem('overheidIsIbt', data.isIbt ? 'true' : 'false');
+                sessionStorage.setItem('overheidIsPolitieAdmin', data.isPolitieAdmin ? 'true' : 'false');
                 sessionStorage.setItem('overheidIsBeheer', data.isBeheer ? 'true' : 'false');
                 sessionStorage.setItem('overheidAccessToken', token);
                 sessionStorage.removeItem('overheidGewensteDienst');
@@ -361,6 +363,8 @@
         sessionStorage.removeItem('overheidDienst');
         sessionStorage.removeItem('overheidUser');
         sessionStorage.removeItem('overheidIsIbtDocent');
+        sessionStorage.removeItem('overheidIsIbt');
+        sessionStorage.removeItem('overheidIsPolitieAdmin');
         sessionStorage.removeItem('overheidIsBeheer');
         sessionStorage.removeItem('overheidAccessToken');
         window.location.href = DISCORD_OAUTH_URL;

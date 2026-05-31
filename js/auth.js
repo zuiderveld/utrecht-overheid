@@ -129,6 +129,19 @@ function isIbtDocent() {
     return sessionStorage.getItem('overheidIsIbtDocent') === 'true';
 }
 
+function isIbt() {
+    return sessionStorage.getItem('overheidIsIbt') === 'true';
+}
+
+function isPolitieAdmin() {
+    return sessionStorage.getItem('overheidIsPolitieAdmin') === 'true';
+}
+
+/** Trainingsoverzicht-spreadsheet (Politie): IBT, politie-admin of beheer */
+function canViewPolitieTrainingSpreadsheet() {
+    return isIbt() || isPolitieAdmin() || isBeheer();
+}
+
 function isBeheer() {
     return sessionStorage.getItem('overheidIsBeheer') === 'true';
 }
@@ -141,6 +154,8 @@ function logout() {
     sessionStorage.removeItem('overheidDienst');
     sessionStorage.removeItem('overheidUser');
     sessionStorage.removeItem('overheidIsIbtDocent');
+    sessionStorage.removeItem('overheidIsIbt');
+    sessionStorage.removeItem('overheidIsPolitieAdmin');
     sessionStorage.removeItem('overheidIsBeheer');
     sessionStorage.removeItem('overheidGewensteDienst');
     sessionStorage.removeItem('overheidAccessToken');

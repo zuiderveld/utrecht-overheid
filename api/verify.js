@@ -41,7 +41,8 @@ module.exports = async function handler(req, res) {
 
   const token = process.env.DISCORD_BOT_TOKEN;
   const guildId = process.env.DISCORD_GUILD_ID;
-  const ibtRoleId = getRoleId('DISCORD_ROLE_IBT_DOCENT', 'ibtDocent');
+  const ibtRoleId = getRoleId('DISCORD_ROLE_IBT', 'ibt') || getRoleId('DISCORD_ROLE_IBT_DOCENT', 'ibtDocent');
+  const politieAdminRoleId = getRoleId('DISCORD_ROLE_POLITIE_ADMIN', 'politieAdmin');
   const beheerRoleId = getRoleId('DISCORD_ROLE_BEHEER', 'beheer');
 
   if (!token || !guildId) {
@@ -82,31 +83,35 @@ module.exports = async function handler(req, res) {
     const userRoles = member.roles || [];
 
     const isBeheer = beheerRoleId && userRoles.includes(beheerRoleId);
-    const isIbtDocent = ibtRoleId ? userRoles.includes(ibtRoleId) : false;
+    const isIbt = ibtRoleId ? userRoles.includes(ibtRoleId) : false;
+    const isPolitieAdmin = politieAdminRoleId ? userRoles.includes(politieAdminRoleId) : false;
+    const isIbtDocent = isIbt || isPolitieAdmin;
     const username = member.nick || user.global_name || user.username;
 
+    const authPayload = {
+      dienst: requestedDienst,
+      username,
+      isIbt,
+      isPolitieAdmin,
+      isIbtDocent,
+      isBeheer: !!isBeheer,
+    };
+
     if (isBeheer) {
-      return res.status(200).json({
-        dienst: requestedDienst,
-        username,
-        isIbtDocent,
-        isBeheer: true,
-      });
+      return res.status(200).json(authPayload);
     }
 
-    if (!heeftRol(userRoles, requestedDienst)) {
+    const heeftDienstRol = heeftRol(userRoles, requestedDienst);
+    const politieViaAdmin = requestedDienst === 'politie' && isPolitieAdmin;
+
+    if (!heeftDienstRol && !politieViaAdmin) {
       const namen = { politie: 'Politie', kmar: 'KMar', ambulance: 'Ambulance', pechhulp: 'Pechhulp' };
       return res.status(403).json({
         error: `Geen toegang. Je mist de Discord-rol voor ${namen[requestedDienst] || requestedDienst}.`,
       });
     }
 
-    return res.status(200).json({
-      dienst: requestedDienst,
-      username,
-      isIbtDocent,
-      isBeheer: false,
-    });
+    return res.status(200).json({ ...authPayload, isBeheer: false });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Serverfout bij Discord check' });
