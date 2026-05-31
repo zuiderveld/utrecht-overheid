@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URP | Politie Trainingen</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <script src="/js/auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0c10;
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            color: #eef2ff;
+            line-height: 1.5;
+        }
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 30% 40%, #0f172a 0%, #0a0c10 100%);
+            z-index: -2;
+        }
+        .bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, rgba(0, 100, 255, 0.03) 0px, rgba(0, 100, 255, 0.03) 2px, transparent 2px, transparent 8px);
+            z-index: -1;
+        }
+        .header {
+            background: rgba(10, 12, 18, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid #0066ff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .nav-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo i {
+            font-size: 2rem;
+            color: #0066ff;
+        }
+        .logo h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .logo span {
+            color: #0066ff;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #0066ff;
+            border-bottom-color: #0066ff;
+        }
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem 1.5rem;
+        }
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .hero h2 span {
+            color: #0066ff;
+        }
+        .hero p {
+            color: #9ca3af;
+        }
+        .section {
+            background: rgba(20, 24, 36, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 1.8rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(0, 102, 255, 0.2);
+        }
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #0066ff;
+            padding-left: 1rem;
+        }
+        .section-title i {
+            color: #0066ff;
+        }
+        /* Training Cards Grid */
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+        .training-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.3rem;
+            border-left: 3px solid #0066ff;
+        }
+        .training-card h3 {
+            color: #0066ff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .training-card .rank {
+            display: inline-block;
+            background: #0066ff20;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin: 0.5rem 0;
+        }
+        .training-card ul {
+            margin-left: 1.2rem;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .training-card li {
+            margin: 0.3rem 0;
+        }
+        .training-card .beloning {
+            margin-top: 0.8rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #2a2c35;
+            color: #00ff88;
+            font-size: 0.85rem;
+        }
+        /* Spreadsheet embed */
+        .spreadsheet-container {
+            margin: 1rem 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #1f2937;
+        }
+        .spreadsheet-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            background: white;
+        }
+        .spreadsheet-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #0066ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: 0.2s;
+        }
+        .spreadsheet-link:hover {
+            background: #0052cc;
+            transform: translateY(-2px);
+        }
+        footer {
+            background: #06080c;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid #0066ff30;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+        @media (max-width: 768px) {
+            .nav-flex { flex-direction: column; text-align: center; }
+            .hero h2 { font-size: 1.5rem; }
+            .spreadsheet-embed { height: 400px; }
+            .training-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg"></div>
+
+<header class="header">
+    <div class="container">
+        <div class="nav-flex">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>URP | <span>POLITIE</span></h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">HOME</a>
+                <a href="regels.html">REGELS</a>
+                <a href="info.html">INFORMATIE</a>
+                <a href="wetboek.html">WETBOEK</a>
+                <a href="trainingen.html" class="active">TRAININGEN</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="hero">
+        <h2>URP | <span>TRAINING OVERZICHT</span></h2>
+        <p><i class="fas fa-graduation-cap"></i> Politie Opleidingen & Specialisaties</p>
+    </div>
+
+    <!-- 1. TRAININGEN PER RANG (cards) -->
+    <div class="section">
+        <div class="section-title">
+            <i class="fas fa-chalkboard-user"></i>
+            <h3>📚 TRAININGEN PER RANG</h3>
+        </div>
+
+        <div class="training-grid">
+            <!-- Aspirant -->
+            <div class="training-card">
+                <h3><i class="fas fa-circle" style="color: #00ff00; font-size: 0.8rem;"></i> Aspirant</h3>
+                <div class="rank">★ Basis Training</div>
+                <ul>
+                    <li>Categorieën, prio's (1–3) en statussen (0–10)</li>
+                    <li>Portofooncommunicatie</li>
+                    <li>Gedrag bij meldingen & burgercontact</li>
+                    <li>Arrestantenrechten + procedures</li>
+                    <li>Gebruik uitrusting</li>
+                </ul>
+                <div class="beloning">🎁 Beloning: Promotie naar Surveillant</div>
+            </div>
+
+            <!-- Surveillant -->
+            <div class="training-card">
+                <h3><i class="fas fa-circle" style="color: #0088ff; font-size: 0.8rem;"></i> Surveillant</h3>
+                <div class="rank">★ Offroad Training</div>
+                <ul><li>Onverhard rijden, voertuigcontrole, zoekacties/achtervolgingen</li></ul>
+                <div class="beloning">🎁 Beloning: Offroad voertuigen</div>
+                
+                <div class="rank" style="margin-top: 10px;">★ Tactische Weerbaarheid</div>
+                <ul><li>Dienstwapen, Taser & wapenstok, de-escalatie</li></ul>
+                <div class="beloning">🎁 Beloning: Taser, wapenstok, vuurwapen</div>
+                
+                <div class="rank" style="margin-top: 10px;">★ Rijtraining</div>
+                <ul><li>Stadsverkeer, sirenes & communicatie, noodstops</li></ul>
+                <div class="beloning">🎁 Beloning: Rijbewijs certificaat</div>
+            </div>
+
+            <!-- Agent -->
+            <div class="training-card">
+                <h3><i class="fas fa-circle" style="color: #aa66ff; font-size: 0.8rem;"></i> Agent</h3>
+                <div class="rank">★ SIV Training</div>
+                <ul><li>Hoge snelheid, positionering, Prio 1 communicatie</li></ul>
+                <div class="beloning">🎁 Beloning: SIV toegang</div>
+            </div>
+
+            <!-- Hoofdagent -->
+            <div class="training-card">
+                <h3><i class="fas fa-circle" style="color: #ffcc00; font-size: 0.8rem;"></i> Hoofdagent</h3>
+                <div class="rank">★ Motor Training</div>
+                <ul><li>Motorcontrole, veilig rijden</li></ul>
+                <div class="beloning">🎁 Beloning: Motor toegang</div>
+            </div>
+
+            <!-- Brigadier -->
+            <div class="training-card">
+                <h3><i class="fas fa-circle" style="color: #ff3333; font-size: 0.8rem;"></i> Brigadier</h3>
+                <div class="rank">★ UM Training</div>
+                <ul><li>Tactisch rijden, observatie</li></ul>
+                <div class="beloning">🎁 Beloning: UM voertuigen</div>
+                
+                <div class="rank" style="margin-top: 10px;">★ Onderhandelaar Training</div>
+                <ul><li>Communicatie, crisisbeheersing</li></ul>
+                <div class="beloning">🎁 Beloning: Onderhandelaar certificaat</div>
+            </div>
+
+            <!-- Inspecteur -->
+            <div class="training-card">
+                <h3><i class="fas fa-circle" style="color: white; font-size: 0.8rem;"></i> Inspecteur</h3>
+                <div class="rank">★ Zulu Training</div>
+                <ul><li>Helikopter, coördinatie</li></ul>
+                <div class="beloning">🎁 Beloning: Zulu toegang</div>
+            </div>
+
+            <!-- Eerste Hulp (Extra) -->
+            <div class="training-card">
+                <h3><i class="fas fa-circle" style="color: #00ff88; font-size: 0.8rem;"></i> Alle rangen</h3>
+                <div class="rank">★ EHBO / Eerste Hulp</div>
+                <ul><li>Reanimatie, wondverzorging, stabiliseren slachtoffers</li></ul>
+                <div class="beloning">🎁 Beloning: EHBO certificaat</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. GOOGLE SPREADSHEET EMBED (eronder) -->
+    <div class="section">
+        <div class="section-title">
+            <i class="fas fa-table"></i>
+            <h3>📊 TRAININGEN SPREADSHEET</h3>
+        </div>
+        <div class="spreadsheet-container">
+            <iframe class="spreadsheet-embed" src="https://docs.google.com/spreadsheets/d/1dWVAf0hz8xgVsdHXzwKix5g-eYQYHnQA1JyTqnsh1bc/preview?gid=0"></iframe>
+        </div>
+        <div style="text-align: center;">
+            <a href="https://docs.google.com/spreadsheets/d/1dWVAf0hz8xgVsdHXzwKix5g-eYQYHnQA1JyTqnsh1bc/edit?gid=0" target="_blank" class="spreadsheet-link">
+                <i class="fas fa-external-link-alt"></i> Open Trainingsoverzicht in nieuw venster
+            </a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>© 2026 Utrecht Roleplay - Politie Divisie | :police_officer: Training Overzicht Korps</p>
+    <p style="margin-top: 0.5rem; font-size: 0.7rem;">Voor vragen over trainingen neem contact op met de Korpsleiding</p>
+</footer>
+<script>requireAuth('politie');</script>
+</body>
+</html>

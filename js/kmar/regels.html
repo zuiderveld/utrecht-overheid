@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMar | Regels</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <script src="/js/auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0c10; font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; color: #eef2ff; line-height: 1.5; }
+        .bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 30% 40%, #0f172a 0%, #0a0c10 100%); z-index: -2; }
+        .header { background: rgba(10, 12, 18, 0.95); backdrop-filter: blur(12px); border-bottom: 2px solid #ff9900; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo i { font-size: 2rem; color: #ff9900; }
+        .logo h1 { font-size: 1.4rem; font-weight: 700; }
+        .logo span { color: #ff9900; }
+        .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; text-decoration: none; font-size: 0.9rem; }
+        .back-btn:hover { background: rgba(255,153,0,0.2); border-color: #ff9900; color: #ff9900; }
+        .hero { text-align: center; padding: 2rem 1rem; }
+        .hero h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .hero h2 span { color: #ff9900; }
+        .section { background: rgba(20, 24, 36, 0.6); border-radius: 24px; padding: 1.8rem; margin: 2rem 0; border: 1px solid rgba(255,153,0,0.2); }
+        .section-title { font-size: 1.3rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 10px; border-left: 4px solid #ff9900; padding-left: 1rem; }
+        .rule-category { margin-bottom: 2rem; }
+        .rule-category h3 { color: #ff9900; margin-bottom: 1rem; }
+        .rule-list { list-style: none; }
+        .rule-list li { padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: flex-start; gap: 10px; }
+        .rule-list li i { color: #ff9900; margin-top: 0.2rem; font-size: 0.8rem; }
+        footer { background: #06080c; text-align: center; padding: 2rem; margin-top: 3rem; border-top: 1px solid #ff990030; font-size: 0.8rem; color: #6b7280; }
+        @media (max-width: 768px) { .nav-flex { flex-direction: column; text-align: center; } }
+    </style>
+</head>
+<body>
+<div class="bg"></div>
+
+<header class="header">
+    <div class="container">
+        <div class="nav-flex">
+            <div class="logo"><i class="fas fa-passport"></i><h1>KMar | <span>Regels</span></h1></div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Terug naar Dashboard</a>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="hero">
+        <h2>KMar <span>Regels</span></h2>
+        <p><i class="fas fa-gavel"></i> Gedragscode en procedures</p>
+    </div>
+    
+    <div class="section">
+        <div class="section-title"><i class="fas fa-list"></i><h3>📋 KMar REGELS</h3></div>
+        
+        <div class="rule-category"><h3><i class="fas fa-globe"></i> Algemene Regels</h3>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Handel altijd professioneel en respectvol</li>
+                <li><i class="fas fa-check-circle"></i> Volg de wet en RP-regels te allen tijde</li>
+                <li><i class="fas fa-check-circle"></i> Misbruik van bevoegdheden, voertuigen of wapens is verboden</li>
+                <li><i class="fas fa-check-circle"></i> Discriminatie, intimidatie of machtsmisbruik is niet toegestaan</li>
+                <li><i class="fas fa-check-circle"></i> Corruptie-RP alleen met toestemming van staff</li>
+                <li><i class="fas fa-check-circle"></i> Volg altijd de commandostructuur binnen het korps</li>
+            </ul>
+        </div>
+        
+        <div class="rule-category"><h3><i class="fas fa-user-shield"></i> KMar Gedrag</h3>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Gebruik alleen geweld wanneer noodzakelijk en proportioneel</li>
+                <li><i class="fas fa-check-circle"></i> Iedere actie moet een geldige RP-reden hebben</li>
+                <li><i class="fas fa-check-circle"></i> Respecteer de rechten en waardigheid van iedere speler</li>
+                <li><i class="fas fa-check-circle"></i> Handel eerlijk en neem verantwoordelijkheid voor je acties</li>
+            </ul>
+        </div>
+        
+        <div class="rule-category"><h3><i class="fas fa-car"></i> Achtervolgingen</h3>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Start alleen een achtervolging met geldige reden</li>
+                <li><i class="fas fa-check-circle"></i> Houd rekening met burgers en verkeer</li>
+                <li><i class="fas fa-check-circle"></i> PIT-manoeuvres alleen volgens serverregels</li>
+                <li><i class="fas fa-check-circle"></i> Schieten vanuit voertuigen alleen bij levensgevaar</li>
+            </ul>
+        </div>
+        
+        <div class="rule-category"><h3><i class="fas fa-handcuffs"></i> Arrestaties</h3>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Lees altijd de rechten van de verdachte voor</li>
+                <li><i class="fas fa-check-circle"></i> Fouilleren en inbeslagname moeten RP-matig gebeuren</li>
+                <li><i class="fas fa-check-circle"></i> Gebruik handboeien alleen met geldige reden</li>
+                <li><i class="fas fa-check-circle"></i> Combat logging tijdens arrestatie is verboden</li>
+            </ul>
+        </div>
+        
+        <div class="rule-category"><h3><i class="fas fa-microphone-alt"></i> Communicatie</h3>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Gebruik portofoonkanalen correct</li>
+                <li><i class="fas fa-check-circle"></i> Geen spam of schreeuwen via voicechat</li>
+                <li><i class="fas fa-check-circle"></i> Meld belangrijke situaties aan dispatch / leiding</li>
+            </ul>
+        </div>
+        
+        <div class="rule-category"><h3><i class="fas fa-lock"></i> Privacy & Integriteit</h3>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Ga vertrouwelijk om met informatie</li>
+                <li><i class="fas fa-check-circle"></i> Respecteer privacy van alle betrokkenen</li>
+                <li><i class="fas fa-check-circle"></i> Deel geen gevoelige informatie zonder reden</li>
+            </ul>
+        </div>
+        
+        <div class="rule-category"><h3><i class="fas fa-exclamation-triangle"></i> Sancties</h3>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Overtredingen kunnen leiden tot waarschuwingen, schorsing of ontslag</li>
+                <li><i class="fas fa-check-circle"></i> Ernstige overtredingen kunnen resulteren in een serverban</li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>© 2026 Overheid Portaal | KMar Divisie</p>
+</footer>
+<script>requireAuth('kmar');</script>
+</body>
+</html>
