@@ -1,0 +1,11 @@
+{
+  "global": false,
+  "message": "Deze website is momenteel in onderhoud. Probeer het later opnieuw.",
+  "diensten": {
+    "politie": false,
+    "kmar": false,
+    "ambulance": false,
+    "pechhulp": false
+  },
+  "updatedAt": null
+}

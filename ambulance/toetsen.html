@@ -3,6 +3,7 @@
 <head>
     
     <script src="/js/auth-guard-inline.js"></script>
+    <script src="/js/maintenance-check.js"></script>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ambulance | Kennistoetsen</title>
@@ -199,6 +200,7 @@
         const percentage = Math.round(score / maxScore * 100);
         const html = `<html><head>
     <script src="/js/auth-guard-inline.js"></script>
+    <script src="/js/maintenance-check.js"></script>
 <title>Certificaat ${training}</title><style>body{font-family:Georgia;background:#f5f5f0;margin:40px;}.certificaat{max-width:800px;margin:0 auto;background:white;border:15px solid #ff3333;padding:40px;text-align:center;}h1{color:#ff3333;}h2{font-size:24px;}.naam{font-size:32px;font-weight:bold;border-bottom:1px solid #ff3333;display:inline-block;padding:0 20px;}</style></head><body><div class="certificaat"><h1>URP | Ambulance</h1><h2>Certificaat van Voldoening</h2><p>Hierbij wordt verklaard dat</p><div class="naam">${userName}</div><p>met succes de kennistoets heeft afgerond voor</p><h2>${training}</h2><p>Score: ${score}/${maxScore} (${percentage}%)</p><p>Datum: ${datum}</p><div class="handtekening">Leiding URP Ambulance</div></div></body></html>`;
         const blob = new Blob([html], { type: 'text/html' });
         const link = document.createElement('a');

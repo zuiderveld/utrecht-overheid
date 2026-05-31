@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <script src="/js/auth-guard-inline.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URP | Beheer Panel</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <script src="/js/auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0c10; font-family: 'Segoe UI', system-ui, sans-serif; color: #eef2ff; min-height: 100vh; }
+        .header { background: rgba(10,12,18,0.95); border-bottom: 2px solid #00ced1; padding: 1rem 0; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .logo h1 { font-size: 1.3rem; }
+        .logo span { color: #00ced1; }
+        .btn { padding: 0.5rem 1rem; border-radius: 30px; border: 1px solid #2a2c35; background: rgba(255,255,255,0.05); color: #ccc; cursor: pointer; text-decoration: none; font-size: 0.85rem; }
+        .btn:hover { border-color: #00ced1; color: #00ced1; }
+        main { padding: 2rem 0 3rem; }
+        .card { background: rgba(20,24,36,0.8); border: 1px solid rgba(0,206,209,0.25); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .card h2 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+        .card h2 i { color: #00ced1; }
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-row strong { display: block; }
+        .toggle-row small { color: #6b7280; font-size: 0.75rem; }
+        .switch { position: relative; width: 52px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; inset: 0; background: #333; border-radius: 28px; cursor: pointer; transition: 0.2s; }
+        .slider:before { content: ''; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.2s; }
+        input:checked + .slider { background: #ff9900; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        .global-toggle input:checked + .slider { background: #ff3333; }
+        textarea { width: 100%; min-height: 80px; background: rgba(0,0,0,0.3); border: 1px solid #2a2c35; border-radius: 12px; padding: 0.8rem; color: #eef2ff; font-family: inherit; margin-top: 0.5rem; resize: vertical; }
+        .btn-save { background: #00ced1; color: #0a0c10; border: none; padding: 0.9rem 2rem; border-radius: 30px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 1rem; font-size: 1rem; }
+        .btn-save:hover { filter: brightness(1.1); }
+        .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+        .status { margin-top: 1rem; padding: 0.8rem; border-radius: 12px; font-size: 0.85rem; display: none; }
+        .status.ok { display: block; background: rgba(0,255,136,0.15); color: #00ff88; }
+        .status.err { display: block; background: rgba(255,0,0,0.15); color: #ff6666; }
+        .hint { font-size: 0.75rem; color: #6b7280; margin-top: 1rem; line-height: 1.4; }
+        .dienst-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="nav-flex">
+            <div class="logo"><h1>URP <span>Beheer Panel</span></h1></div>
+            <div style="display:flex;gap:8px;">
+                <a href="/index.html" class="btn"><i class="fas fa-home"></i> Login</a>
+                <button type="button" class="btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Uitloggen</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="card">
+        <h2><i class="fas fa-globe"></i> Hele website</h2>
+        <div class="toggle-row global-toggle">
+            <div>
+                <strong>Alles in onderhoud</strong>
+                <small>Niemand kan inloggen of pagina's openen (beheer wel)</small>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="globalMaint">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-building"></i> Per dienst</h2>
+        <p class="hint" style="margin-top:0;margin-bottom:0.5rem;">Alleen die dienst op onderhoud — rest blijft online.</p>
+        <div class="toggle-row">
+            <div><span class="dienst-dot" style="background:#0066ff"></span><strong>Politie</strong></div>
+            <label class="switch"><input type="checkbox" id="maintPolitie"><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+            <div><span class="dienst-dot" style="background:#ff9900"></span><strong>KMar</strong></div>
+            <label class="switch"><input type="checkbox" id="maintKmar"><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+            <div><span class="dienst-dot" style="background:#ff3333"></span><strong>Ambulance</strong></div>
+            <label class="switch"><input type="checkbox" id="maintAmbulance"><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+            <div><span class="dienst-dot" style="background:#33cc33"></span><strong>Pechhulp</strong></div>
+            <label class="switch"><input type="checkbox" id="maintPechhulp"><span class="slider"></span></label>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-comment-alt"></i> Onderhoudsbericht</h2>
+        <textarea id="maintMessage" placeholder="Tekst die bezoekers zien..."></textarea>
+    </div>
+
+    <button type="button" class="btn-save" id="btnSave"><i class="fas fa-save"></i> Instellingen opslaan</button>
+    <div class="status" id="statusBox"></div>
+    <p class="hint"><i class="fas fa-info-circle"></i> Beheer ziet de site altijd. Bezoekers zonder beheer-rol zien het onderhoudsscherm. Vereist Vercel Blob (BLOB_READ_WRITE_TOKEN) om op te slaan.</p>
+</main>
+
+<script>
+    if (sessionStorage.getItem('overheidIsBeheer') !== 'true') {
+        alert('Alleen beheer heeft toegang tot dit panel.');
+        location.replace('/index.html');
+    }
+
+    const API = window.location.origin;
+
+    async function loadState() {
+        const res = await fetch(API + '/api/maintenance');
+        const s = await res.json();
+        document.getElementById('globalMaint').checked = !!s.global;
+        document.getElementById('maintPolitie').checked = !!s.diensten?.politie;
+        document.getElementById('maintKmar').checked = !!s.diensten?.kmar;
+        document.getElementById('maintAmbulance').checked = !!s.diensten?.ambulance;
+        document.getElementById('maintPechhulp').checked = !!s.diensten?.pechhulp;
+        document.getElementById('maintMessage').value = s.message || '';
+    }
+
+    function getStateFromForm() {
+        return {
+            global: document.getElementById('globalMaint').checked,
+            message: document.getElementById('maintMessage').value,
+            diensten: {
+                politie: document.getElementById('maintPolitie').checked,
+                kmar: document.getElementById('maintKmar').checked,
+                ambulance: document.getElementById('maintAmbulance').checked,
+                pechhulp: document.getElementById('maintPechhulp').checked
+            }
+        };
+    }
+
+    document.getElementById('btnSave').addEventListener('click', async () => {
+        const btn = document.getElementById('btnSave');
+        const box = document.getElementById('statusBox');
+        const token = sessionStorage.getItem('overheidAccessToken');
+
+        if (!token) {
+            box.className = 'status err';
+            box.textContent = 'Log opnieuw in via Discord om instellingen op te slaan.';
+            return;
+        }
+
+        btn.disabled = true;
+        box.className = 'status';
+        box.style.display = 'none';
+
+        try {
+            const res = await fetch(API + '/api/maintenance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ accessToken: token, maintenance: getStateFromForm() })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Opslaan mislukt');
+
+            box.className = 'status ok';
+            box.textContent = 'Opgeslagen! Onderhoudsinstellingen zijn nu actief op de hele site.';
+        } catch (e) {
+            box.className = 'status err';
+            box.textContent = e.message;
+        }
+        btn.disabled = false;
+    });
+
+    loadState();
+</script>
+</body>
+</html>
