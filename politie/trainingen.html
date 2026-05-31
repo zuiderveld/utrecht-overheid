@@ -1,9 +1,13 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
+    
+    <script src="/js/auth-guard-inline.js"></script>
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URP | Politie Trainingen</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <script src="/js/auth.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -221,10 +225,10 @@
             </div>
             <div class="nav-links">
                 <a href="index.html">HOME</a>
-                <a href="politie-regels.html">REGELS</a>
-                <a href="politie-info.html">INFORMATIE</a>
-                <a href="politie-wetboek.html">WETBOEK</a>
-                <a href="politie-trainingen.html" class="active">TRAININGEN</a>
+                <a href="regels.html">REGELS</a>
+                <a href="info.html">INFORMATIE</a>
+                <a href="wetboek.html">WETBOEK</a>
+                <a href="trainingen.html" class="active">TRAININGEN</a>
             </div>
         </div>
     </div>
@@ -341,5 +345,6 @@
     <p>© 2026 Utrecht Roleplay - Politie Divisie | :police_officer: Training Overzicht Korps</p>
     <p style="margin-top: 0.5rem; font-size: 0.7rem;">Voor vragen over trainingen neem contact op met de Korpsleiding</p>
 </footer>
+<script>requireAuth('politie');</script>
 </body>
 </html>

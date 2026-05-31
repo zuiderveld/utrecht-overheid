@@ -1,11 +1,11 @@
 /**
  * Discord role ID's — pas hier aan en push naar GitHub
- * Vercel Environment Variables overschrijven deze waarden als ze gezet zijn
  */
 module.exports = {
   politie: '1504849444343119933',
-  kmar: '',        // vul in: KMar role ID
-  ambulance: '',   // vul in: Ambulance role ID
-  pechhulp: '',    // vul in: Pechhulp/ANWB role ID
-  ibtDocent: '',   // optioneel: IBT docent role ID
+  kmar: '1504849502756933834',
+  ambulance: '1504849587960156230',
+  pechhulp: '1504849586710249472',
+  beheer: '1504849381436686537',
+  ibtDocent: '',
 };

@@ -117,20 +117,30 @@
             margin-bottom: 1rem;
         }
         .logged-in-box .user-name { font-weight: 700; color: #00ced1; }
+        .stap-label {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-bottom: 0.8rem;
+            text-align: left;
+        }
         .diensten {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
         .dienst {
             text-align: center;
-            padding: 0.5rem 1rem;
+            padding: 1rem 0.5rem;
             background: rgba(255,255,255,0.05);
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 0.8rem;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
         }
+        .dienst:hover { background: rgba(255,255,255,0.1); }
+        .dienst.selected { border-color: #00ced1; background: rgba(0,206,209,0.12); }
         .dienst i {
             font-size: 1.5rem;
             display: block;
@@ -140,6 +150,17 @@
         .dienst.kmar i { color: #ff9900; }
         .dienst.ambulance i { color: #ff3333; }
         .dienst.pechhulp i { color: #33cc33; }
+        .btn-discord:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .gekozen-dienst {
+            font-size: 0.8rem;
+            color: #00ced1;
+            margin-bottom: 0.8rem;
+            min-height: 1.2rem;
+        }
         .error {
             background: rgba(255, 0, 0, 0.15);
             border: 1px solid rgba(255, 0, 0, 0.3);
@@ -191,7 +212,18 @@
                 <i class="fas fa-exclamation-triangle"></i> <span id="errorText"></span>
             </div>
 
-            <button type="button" class="btn-discord" onclick="loginMetDiscord()">
+            <p class="stap-label"><strong>Stap 1</strong> — Kies waarmee je wilt inloggen</p>
+            <div class="diensten" id="dienstenKiezer">
+                <div class="dienst politie" data-dienst="politie" onclick="kiesDienst('politie')"><i class="fas fa-shield-alt"></i> Politie</div>
+                <div class="dienst kmar" data-dienst="kmar" onclick="kiesDienst('kmar')"><i class="fas fa-passport"></i> KMar</div>
+                <div class="dienst ambulance" data-dienst="ambulance" onclick="kiesDienst('ambulance')"><i class="fas fa-ambulance"></i> Ambulance</div>
+                <div class="dienst pechhulp" data-dienst="pechhulp" onclick="kiesDienst('pechhulp')"><i class="fas fa-wrench"></i> Pechhulp</div>
+            </div>
+
+            <p class="gekozen-dienst" id="gekozenDienstTekst"></p>
+
+            <p class="stap-label"><strong>Stap 2</strong> — Inloggen met Discord</p>
+            <button type="button" id="btnDiscord" class="btn-discord" disabled onclick="loginMetDiscord()">
                 <i class="fab fa-discord"></i> Inloggen met Discord
             </button>
 
@@ -200,15 +232,8 @@
             </div>
 
             <p class="hint">
-                <i class="fas fa-shield-alt"></i> Je hebt de juiste Discord-rol nodig voor je dienst (Politie, KMar, Ambulance of Pechhulp/ANWB).
+                <i class="fas fa-shield-alt"></i> Je hebt de Discord-rol voor je gekozen dienst nodig. Beheer kan overal inloggen.
             </p>
-        </div>
-
-        <div class="diensten">
-            <div class="dienst politie"><i class="fas fa-shield-alt"></i> Politie</div>
-            <div class="dienst kmar"><i class="fas fa-passport"></i> KMar</div>
-            <div class="dienst ambulance"><i class="fas fa-ambulance"></i> Ambulance</div>
-            <div class="dienst pechhulp"><i class="fas fa-wrench"></i> Pechhulp</div>
         </div>
 
         <footer>
@@ -222,7 +247,20 @@
     // Zelfde domein als Vercel-site → api/verify.js (role ID's in Vercel Environment Variables)
     const BOT_API_URL = window.location.origin;
     const DISCORD_CLIENT_ID = "1105153603351609374";
-    const REDIRECT_URI = window.location.origin + window.location.pathname;
+
+    // Moet EXACT overeenkomen met Discord → OAuth2 → Redirects
+    function getRedirectUri() {
+        const host = window.location.hostname;
+        if (host === 'overheid.utrechtroleplay.eu') {
+            return 'http://overheid.utrechtroleplay.eu/';
+        }
+        if (host === 'utrecht-overheid.vercel.app') {
+            return 'https://utrecht-overheid.vercel.app/';
+        }
+        return window.location.origin + '/';
+    }
+
+    const REDIRECT_URI = getRedirectUri();
     const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify%20guilds`;
 
     const DIENST_NAMEN = {
@@ -231,6 +269,23 @@
         ambulance: 'Ambulance',
         pechhulp: 'Pechhulp (ANWB)'
     };
+
+    let gekozenDienst = sessionStorage.getItem('overheidGewensteDienst') || null;
+
+    function kiesDienst(dienst) {
+        gekozenDienst = dienst;
+        sessionStorage.setItem('overheidGewensteDienst', dienst);
+        document.querySelectorAll('.dienst').forEach(el => {
+            el.classList.toggle('selected', el.dataset.dienst === dienst);
+        });
+        document.getElementById('gekozenDienstTekst').textContent =
+            'Gekozen: ' + (DIENST_NAMEN[dienst] || dienst);
+        document.getElementById('btnDiscord').disabled = false;
+    }
+
+    if (gekozenDienst && DIENST_NAMEN[gekozenDienst]) {
+        kiesDienst(gekozenDienst);
+    }
 
     function toonIngelogdState() {
         const dienst = sessionStorage.getItem('overheidDienst');
@@ -254,7 +309,7 @@
     const accessToken = params.get('access_token');
 
     if (accessToken) {
-        window.history.replaceState({}, document.title, window.location.pathname);
+        window.history.replaceState({}, document.title, '/');
         verwerkDiscordLogin(accessToken);
     } else if (!toonIngelogdState()) {
         document.getElementById('loginForm').style.display = 'block';
@@ -271,10 +326,15 @@
         errorDiv.style.display = 'none';
 
         try {
+            const requestedDienst = sessionStorage.getItem('overheidGewensteDienst');
+            if (!requestedDienst) {
+                throw new Error('Kies eerst een dienst (Politie, KMar, Ambulance of Pechhulp).');
+            }
+
             const response = await fetch(`${BOT_API_URL}/api/verify`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ accessToken: token })
+                body: JSON.stringify({ accessToken: token, requestedDienst })
             });
 
             const data = await response.json();
@@ -283,6 +343,8 @@
                 sessionStorage.setItem('overheidDienst', data.dienst);
                 sessionStorage.setItem('overheidUser', data.username || 'Medewerker');
                 sessionStorage.setItem('overheidIsIbtDocent', data.isIbtDocent ? 'true' : 'false');
+                sessionStorage.setItem('overheidIsBeheer', data.isBeheer ? 'true' : 'false');
+                sessionStorage.removeItem('overheidGewensteDienst');
                 window.location.href = `/${data.dienst}/index.html`;
             } else {
                 const msg = data.error || 'Geen toegang. Je mist de Discord-rol voor Politie, KMar, Ambulance of Pechhulp.';
@@ -296,9 +358,15 @@
     }
 
     function loginMetDiscord() {
+        if (!gekozenDienst) {
+            document.getElementById('errorText').textContent = 'Kies eerst een dienst.';
+            document.getElementById('errorMessage').style.display = 'block';
+            return;
+        }
         sessionStorage.removeItem('overheidDienst');
         sessionStorage.removeItem('overheidUser');
         sessionStorage.removeItem('overheidIsIbtDocent');
+        sessionStorage.removeItem('overheidIsBeheer');
         window.location.href = DISCORD_OAUTH_URL;
     }
 </script>

@@ -12,11 +12,20 @@ const ROL_CONFIG = [
   { env: 'DISCORD_ROLE_PECHHULP', key: 'pechhulp', dienst: 'pechhulp' },
 ];
 
+const GELDIGE_DIENSTEN = ['politie', 'kmar', 'ambulance', 'pechhulp'];
+
 function getRoleId(envName, fileKey) {
   const fromEnv = process.env[envName];
   if (fromEnv) return fromEnv;
   const fromFile = rolesFile[fileKey];
   return fromFile || null;
+}
+
+function heeftRol(userRoles, dienst) {
+  const row = ROL_CONFIG.find((r) => r.dienst === dienst);
+  if (!row) return false;
+  const roleId = getRoleId(row.env, row.key);
+  return roleId && userRoles.includes(roleId);
 }
 
 function cors(res) {
@@ -33,6 +42,7 @@ module.exports = async function handler(req, res) {
   const token = process.env.DISCORD_BOT_TOKEN;
   const guildId = process.env.DISCORD_GUILD_ID;
   const ibtRoleId = getRoleId('DISCORD_ROLE_IBT_DOCENT', 'ibtDocent');
+  const beheerRoleId = getRoleId('DISCORD_ROLE_BEHEER', 'beheer');
 
   if (!token || !guildId) {
     return res.status(500).json({
@@ -41,8 +51,13 @@ module.exports = async function handler(req, res) {
   }
 
   const accessToken = req.body?.accessToken;
+  const requestedDienst = req.body?.requestedDienst;
+
   if (!accessToken) {
     return res.status(400).json({ error: 'Geen access token' });
+  }
+  if (!requestedDienst || !GELDIGE_DIENSTEN.includes(requestedDienst)) {
+    return res.status(400).json({ error: 'Kies eerst een dienst (Politie, KMar, Ambulance of Pechhulp).' });
   }
 
   try {
@@ -66,25 +81,32 @@ module.exports = async function handler(req, res) {
     const member = await memberRes.json();
     const userRoles = member.roles || [];
 
-    let dienst = null;
-    for (const row of ROL_CONFIG) {
-      const roleId = getRoleId(row.env, row.key);
-      if (roleId && userRoles.includes(roleId)) {
-        dienst = row.dienst;
-        break;
-      }
-    }
-
-    if (!dienst) {
-      return res.status(403).json({
-        error: 'Geen toegang. Je hebt geen Politie, KMar, Ambulance of Pechhulp Discord-rol.',
-      });
-    }
-
+    const isBeheer = beheerRoleId && userRoles.includes(beheerRoleId);
     const isIbtDocent = ibtRoleId ? userRoles.includes(ibtRoleId) : false;
     const username = member.nick || user.global_name || user.username;
 
-    return res.status(200).json({ dienst, username, isIbtDocent });
+    if (isBeheer) {
+      return res.status(200).json({
+        dienst: requestedDienst,
+        username,
+        isIbtDocent,
+        isBeheer: true,
+      });
+    }
+
+    if (!heeftRol(userRoles, requestedDienst)) {
+      const namen = { politie: 'Politie', kmar: 'KMar', ambulance: 'Ambulance', pechhulp: 'Pechhulp' };
+      return res.status(403).json({
+        error: `Geen toegang. Je mist de Discord-rol voor ${namen[requestedDienst] || requestedDienst}.`,
+      });
+    }
+
+    return res.status(200).json({
+      dienst: requestedDienst,
+      username,
+      isIbtDocent,
+      isBeheer: false,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Serverfout bij Discord check' });

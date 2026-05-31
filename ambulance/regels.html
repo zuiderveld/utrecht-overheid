@@ -1,7 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
+    
+    <script src="/js/auth-guard-inline.js"></script>
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ambulance | Regels</title>
     <link rel="icon" type="image/png" href="/assets/favicon.png">
@@ -19,7 +21,7 @@
         .logo h1 { font-size: 1.4rem; font-weight: 700; }
         .logo span { color: #ff3333; }
         .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; text-decoration: none; font-size: 0.9rem; }
-        .back-btn:hover { background: rgba(255,51,51,0.2); border-color: #ff3333; color: #ff3333; }
+        .back-btn:hover { background: rgba(255,51,51,0.2); border-color: #ff3333; color: #ff3333; } .logout-btn{background:rgba(255,255,255,0.05);border:1px solid #2a2c35;padding:0.5rem 1.2rem;border-radius:30px;color:#ccc;cursor:pointer;font-size:0.9rem;} .logout-btn:hover{border-color:#ff3333;color:#ff6666;}
         .hero { text-align: center; padding: 2rem 1rem; }
         .hero h2 { font-size: 2rem; margin-bottom: 0.5rem; }
         .hero h2 span { color: #ff3333; }
@@ -41,7 +43,7 @@
     <div class="container">
         <div class="nav-flex">
             <div class="logo"><i class="fas fa-ambulance"></i><h1>Ambulance | <span>Regels</span></h1></div>
-            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Terug naar Dashboard</a>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;"><a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Terug naar Dashboard</a><button type="button" class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Uitloggen</button></div>
         </div>
     </div>
 </header>
