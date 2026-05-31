@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <script src="/js/auth-guard-inline.js"></script>
+    <script>
+        (function () {
+            if (sessionStorage.getItem('overheidIsBeheer') === 'true') return;
+            var dest = '/index.html?admin=1&redirect=' + encodeURIComponent('/admin/index.html');
+            if (sessionStorage.getItem('overheidDienst')) {
+                dest += '&error=geen-beheer';
+            }
+            location.replace(dest);
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URP | Beheer Panel</title>
@@ -104,22 +113,41 @@
 </main>
 
 <script>
-    if (sessionStorage.getItem('overheidIsBeheer') !== 'true') {
-        alert('Alleen beheer heeft toegang tot dit panel.');
-        location.replace('/index.html');
-    }
-
     const API = window.location.origin;
+    let loadAbort = null;
 
-    async function loadState() {
-        const res = await fetch(API + '/api/maintenance');
-        const s = await res.json();
+    function applyState(s) {
+        if (!s) return;
         document.getElementById('globalMaint').checked = !!s.global;
         document.getElementById('maintPolitie').checked = !!s.diensten?.politie;
         document.getElementById('maintKmar').checked = !!s.diensten?.kmar;
         document.getElementById('maintAmbulance').checked = !!s.diensten?.ambulance;
         document.getElementById('maintPechhulp').checked = !!s.diensten?.pechhulp;
         document.getElementById('maintMessage').value = s.message || '';
+    }
+
+    async function loadState() {
+        if (loadAbort) loadAbort.abort();
+        loadAbort = new AbortController();
+        const signal = loadAbort.signal;
+
+        const res = await fetch(API + '/api/maintenance', {
+            cache: 'no-store',
+            signal
+        });
+        const s = await res.json();
+        if (signal.aborted) return s;
+
+        applyState(s);
+
+        const box = document.getElementById('statusBox');
+        if (s._storage === 'default') {
+            box.className = 'status err';
+            box.textContent =
+                'Waarschuwing: instellingen worden nog niet opgeslagen in Vercel Blob. ' +
+                'Koppel Blob storage en zet BLOB_READ_WRITE_TOKEN, daarna redeploy.';
+        }
+        return s;
     }
 
     function getStateFromForm() {
@@ -142,33 +170,50 @@
 
         if (!token) {
             box.className = 'status err';
+            box.style.display = 'block';
             box.textContent = 'Log opnieuw in via Discord om instellingen op te slaan.';
             return;
         }
+
+        if (loadAbort) loadAbort.abort();
 
         btn.disabled = true;
         box.className = 'status';
         box.style.display = 'none';
 
+        const payload = getStateFromForm();
+
         try {
             const res = await fetch(API + '/api/maintenance', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ accessToken: token, maintenance: getStateFromForm() })
+                cache: 'no-store',
+                body: JSON.stringify({ accessToken: token, maintenance: payload })
             });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Opslaan mislukt');
 
+            applyState(data.maintenance || payload);
+
             box.className = 'status ok';
+            box.style.display = 'block';
             box.textContent = 'Opgeslagen! Onderhoudsinstellingen zijn nu actief op de hele site.';
         } catch (e) {
+            applyState(payload);
             box.className = 'status err';
+            box.style.display = 'block';
             box.textContent = e.message;
         }
         btn.disabled = false;
     });
 
-    loadState();
+    loadState().catch((e) => {
+        if (e.name === 'AbortError') return;
+        const box = document.getElementById('statusBox');
+        box.className = 'status err';
+        box.style.display = 'block';
+        box.textContent = 'Kon instellingen niet laden: ' + e.message;
+    });
 </script>
 </body>
 </html>

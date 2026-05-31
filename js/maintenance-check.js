@@ -58,7 +58,7 @@
     else document.addEventListener('DOMContentLoaded', run);
   }
 
-  fetch(window.location.origin + '/api/maintenance')
+  fetch(window.location.origin + '/api/maintenance', { cache: 'no-store' })
     .then((r) => r.json())
     .then((state) => {
       if (isBeheer()) return;

@@ -158,6 +158,7 @@ function logout() {
     sessionStorage.removeItem('overheidIsPolitieAdmin');
     sessionStorage.removeItem('overheidIsBeheer');
     sessionStorage.removeItem('overheidGewensteDienst');
+    sessionStorage.removeItem('overheidLoginRedirect');
     sessionStorage.removeItem('overheidAccessToken');
     window.location.replace(getLoginUrl());
 }

@@ -197,8 +197,8 @@
     <div class="login-box">
         <div class="logo">
             <img src="/assets/favicon.png" alt="URP Logo" class="logo-img">
-            <h1>URP <span>Overheid</span></h1>
-            <p>Eén loket voor Politie, KMar, Ambulance & Pechhulp</p>
+            <h1 id="loginTitle">URP <span>Overheid</span></h1>
+            <p id="loginSubtitle">Eén loket voor Politie, KMar, Ambulance & Pechhulp</p>
         </div>
 
         <div id="loggedInBox" class="logged-in-box">
@@ -266,6 +266,30 @@
 
     let gekozenDienst = sessionStorage.getItem('overheidGewensteDienst') || null;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectAfterLogin = urlParams.get('redirect');
+    const isAdminLogin = urlParams.get('admin') === '1';
+
+    if (redirectAfterLogin) {
+        sessionStorage.setItem('overheidLoginRedirect', redirectAfterLogin);
+    }
+
+    const loginError = urlParams.get('error');
+    if (loginError === 'geen-beheer') {
+        document.getElementById('errorText').textContent =
+            'Je bent ingelogd, maar hebt geen beheer-rechten voor dit panel.';
+        document.getElementById('errorMessage').style.display = 'block';
+        sessionStorage.removeItem('overheidDienst');
+        sessionStorage.removeItem('overheidUser');
+        sessionStorage.removeItem('overheidIsIbtDocent');
+        sessionStorage.removeItem('overheidIsIbt');
+        sessionStorage.removeItem('overheidIsPolitieAdmin');
+        sessionStorage.removeItem('overheidIsBeheer');
+        sessionStorage.removeItem('overheidAccessToken');
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('loggedInBox').style.display = 'none';
+    }
+
     function kiesDienst(dienst) {
         gekozenDienst = dienst;
         sessionStorage.setItem('overheidGewensteDienst', dienst);
@@ -281,16 +305,43 @@
         kiesDienst(gekozenDienst);
     }
 
+    if (isAdminLogin || (redirectAfterLogin && redirectAfterLogin.indexOf('/admin') !== -1)) {
+        document.getElementById('loginTitle').innerHTML = 'URP <span>Beheer</span>';
+        document.getElementById('loginSubtitle').textContent =
+            'Log in met Discord om het beheer panel te openen (alleen beheer-rol).';
+        if (!gekozenDienst) {
+            kiesDienst('politie');
+        }
+    }
+
     function toonIngelogdState() {
         const dienst = sessionStorage.getItem('overheidDienst');
         const user = sessionStorage.getItem('overheidUser');
         if (!dienst || !user) return false;
 
+        const redirect = sessionStorage.getItem('overheidLoginRedirect');
+        const isBeheerUser = sessionStorage.getItem('overheidIsBeheer') === 'true';
+
         document.getElementById('loginForm').style.display = 'none';
         document.getElementById('loggedInBox').style.display = 'block';
         document.getElementById('loggedInUser').textContent = user;
         document.getElementById('loggedInDienst').textContent = DIENST_NAMEN[dienst] || dienst;
-        document.getElementById('dashboardLink').href = `/${dienst}/index.html`;
+
+        const dash = document.getElementById('dashboardLink');
+        if (redirect && redirect.indexOf('/admin') !== -1 && isBeheerUser) {
+            dash.href = redirect;
+            dash.innerHTML = '<i class="fas fa-cog"></i> Naar beheer panel';
+        } else if (redirect && redirect.indexOf('/admin') !== -1 && !isBeheerUser) {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('loggedInBox').style.display = 'none';
+            document.getElementById('errorText').textContent =
+                'Geen beheer-rechten. Vraag de beheer-rol op Discord aan.';
+            document.getElementById('errorMessage').style.display = 'block';
+            return false;
+        } else {
+            dash.href = `/${dienst}/index.html`;
+            dash.innerHTML = '<i class="fas fa-tachometer-alt"></i> Naar dashboard';
+        }
         return true;
     }
 
@@ -303,7 +354,11 @@
     const accessToken = params.get('access_token');
 
     if (accessToken) {
-        window.history.replaceState({}, document.title, '/');
+        const keepRedirect = sessionStorage.getItem('overheidLoginRedirect');
+        const cleanUrl = keepRedirect && keepRedirect.indexOf('/admin') !== -1
+            ? '/?admin=1&redirect=' + encodeURIComponent(keepRedirect)
+            : '/';
+        window.history.replaceState({}, document.title, cleanUrl);
         verwerkDiscordLogin(accessToken);
     } else if (!toonIngelogdState()) {
         document.getElementById('loginForm').style.display = 'block';
@@ -342,6 +397,17 @@
                 sessionStorage.setItem('overheidIsBeheer', data.isBeheer ? 'true' : 'false');
                 sessionStorage.setItem('overheidAccessToken', token);
                 sessionStorage.removeItem('overheidGewensteDienst');
+
+                const redirect = sessionStorage.getItem('overheidLoginRedirect');
+                if (redirect && redirect.indexOf('/admin') !== -1) {
+                    if (data.isBeheer) {
+                        sessionStorage.removeItem('overheidLoginRedirect');
+                        window.location.href = redirect;
+                        return;
+                    }
+                    throw new Error('Alleen beheer heeft toegang tot het beheer panel.');
+                }
+                if (redirect) sessionStorage.removeItem('overheidLoginRedirect');
                 window.location.href = `/${data.dienst}/index.html`;
             } else {
                 const msg = data.error || 'Geen toegang. Je mist de Discord-rol voor Politie, KMar, Ambulance of Pechhulp.';

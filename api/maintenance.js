@@ -31,14 +31,29 @@ async function loadFromBlob() {
   if (!blobToken) return null;
 
   try {
-    const { list } = require('@vercel/blob');
+    const { head, list } = require('@vercel/blob');
+
+    try {
+      const meta = await head(BLOB_PATHNAME, { token: blobToken });
+      if (meta?.url) {
+        const res = await fetch(meta.url, { cache: 'no-store' });
+        if (res.ok) return await res.json();
+      }
+    } catch {
+      /* head faalt als blob nog niet bestaat */
+    }
+
     const { blobs } = await list({ prefix: BLOB_PATHNAME, token: blobToken });
-    const match = blobs.find((b) => b.pathname === BLOB_PATHNAME) || blobs[0];
+    const match =
+      blobs.find((b) => b.pathname === BLOB_PATHNAME) ||
+      blobs.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt))[0];
     if (!match?.url) return null;
-    const res = await fetch(match.url);
+
+    const res = await fetch(match.url, { cache: 'no-store' });
     if (!res.ok) return null;
     return await res.json();
-  } catch {
+  } catch (err) {
+    console.error('Blob laden mislukt:', err);
     return null;
   }
 }
@@ -47,23 +62,31 @@ async function saveToBlob(state) {
   const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
   if (!blobToken) {
     throw new Error(
-      'Vercel Blob niet geconfigureerd. Maak een Blob store aan in Vercel en koppel BLOB_READ_WRITE_TOKEN.'
+      'Vercel Blob niet geconfigureerd. Maak een Blob store in Vercel → Storage → Blob en redeploy (BLOB_READ_WRITE_TOKEN).'
     );
   }
   const { put } = require('@vercel/blob');
-  await put(BLOB_PATHNAME, JSON.stringify(state), {
+  const result = await put(BLOB_PATHNAME, JSON.stringify(state), {
     access: 'public',
     token: blobToken,
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: 'application/json',
+    cacheControlMaxAge: 60,
   });
+  return result;
 }
 
 async function getMaintenanceState() {
+  if (process.env.MAINTENANCE_FORCE_OFF === 'true') {
+    return { ...readDefaultFile(), global: false, _storage: 'force-off' };
+  }
+
   const fromBlob = await loadFromBlob();
-  if (fromBlob) return fromBlob;
-  return readDefaultFile();
+  if (fromBlob) {
+    return { ...fromBlob, _storage: 'blob' };
+  }
+  return { ...readDefaultFile(), _storage: 'default' };
 }
 
 function normalizeState(input) {
@@ -83,6 +106,8 @@ function normalizeState(input) {
 
 module.exports = async function handler(req, res) {
   cors(res);
+  res.setHeader('Cache-Control', 'no-store, max-age=0');
+
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   if (req.method === 'GET') {
@@ -100,9 +125,13 @@ module.exports = async function handler(req, res) {
     try {
       const state = normalizeState(req.body?.maintenance || {});
       await saveToBlob(state);
-      return res.status(200).json({ ok: true, maintenance: state });
+      return res.status(200).json({
+        ok: true,
+        maintenance: { ...state, _storage: 'blob' },
+      });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      console.error('Onderhoud opslaan:', err);
+      return res.status(500).json({ error: err.message || 'Opslaan mislukt' });
     }
   }
 
