@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="nl" data-accent="#0066ff">
+<html lang="nl" style="--wetboek-accent:#0066ff;--wetboek-border:rgba(0,102,255,0.2);">
 <head>
     <script src="/js/auth-guard-inline.js"></script>
     <script src="/js/maintenance-check.js"></script>
@@ -9,23 +9,23 @@
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <script src="/js/auth.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/css/wetboek.css">
+    <link rel="stylesheet" href="/css/wetboek-page.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0c10; font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; color: #eef2ff; line-height: 1.5; }
         .bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 30% 40%, #0f172a 0%, #0a0c10 100%); z-index: -2; }
         .header { background: rgba(10, 12, 18, 0.95); backdrop-filter: blur(12px); border-bottom: 2px solid #0066ff; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
         .logo { display: flex; align-items: center; gap: 12px; }
         .logo i { font-size: 2rem; color: #0066ff; }
         .logo h1 { font-size: 1.4rem; font-weight: 700; }
         .logo span { color: #0066ff; }
-        .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; text-decoration: none; font-size: 0.9rem; }
+        .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; text-decoration: none; font-size: 0.9rem; }
         .back-btn:hover { background: rgba(0,102,255,0.2); border-color: #0066ff; color: #0066ff; }
         .logout-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; font-size: 0.9rem; }
         .logout-btn:hover { border-color: #ff3333; color: #ff6666; }
-        footer { background: #06080c; text-align: center; padding: 2rem; border-top: 1px solid #0066ff30; font-size: 0.8rem; color: #6b7280; }
+        footer { background: #06080c; text-align: center; padding: 2rem; margin-top: 1rem; border-top: 1px solid #0066ff30; font-size: 0.8rem; color: #6b7280; }
     </style>
 </head>
 <body>
@@ -46,19 +46,37 @@
 <main class="container">
     <div class="wetboek-hero">
         <h2>Wetboek van <span>Strafrecht</span></h2>
+        <p><i class="fas fa-gavel"></i> Strafrecht · Opiumwet · Wegenverkeerswet</p>
         <nav class="wetboek-tabs" id="wetboekTabs" aria-label="Wetboek secties"></nav>
     </div>
-    <div class="wetboek-card" id="wetboekContent"></div>
+
+    <div class="wetboek-section">
+        <div class="wetboek-section-title">
+            <i class="fas fa-table"></i>
+            <h3>📊 WETBOEK SPREADSHEET</h3>
+        </div>
+        <div class="wetboek-spreadsheet-container">
+            <iframe class="wetboek-spreadsheet-embed" id="wetboekEmbed" title="URP Wetboek overzicht"></iframe>
+        </div>
+        <div class="wetboek-actions">
+            <a href="#" id="wetboekOpenLink" target="_blank" rel="noopener" class="wetboek-spreadsheet-link">
+                <i class="fas fa-external-link-alt"></i> Open Wetboek in nieuw venster
+            </a>
+        </div>
+        <p style="text-align:center;font-size:0.75rem;color:#6b7280;margin-top:1rem;">
+            Wijzigingen in Google Docs/Sheets verschijnen automatisch na verversen.
+        </p>
+    </div>
 </main>
 
 <footer>
     <p>© 2026 Overheid Portaal | Politie Divisie</p>
 </footer>
 
-<script src="/js/wetboek-data.js"></script>
-<script src="/js/wetboek-ui.js"></script>
+<script src="/js/wetboek-config.js"></script>
+<script src="/js/wetboek-page.js"></script>
 <script>
-    initWetboekPage();
+    initWetboekEmbedPage();
     requireAuth('politie');
 </script>
 </body>
