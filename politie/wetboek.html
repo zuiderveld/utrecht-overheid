@@ -1,10 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
-    
     <script src="/js/auth-guard-inline.js"></script>
     <script src="/js/maintenance-check.js"></script>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Politie | Wetboek</title>
     <link rel="icon" type="image/png" href="/assets/favicon.png">
@@ -21,19 +20,25 @@
         .logo i { font-size: 2rem; color: #0066ff; }
         .logo h1 { font-size: 1.4rem; font-weight: 700; }
         .logo span { color: #0066ff; }
-        .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; text-decoration: none; }
-        .back-btn:hover { background: rgba(0,102,255,0.2); border-color: #0066ff; color: #0066ff; } .logout-btn{background:rgba(255,255,255,0.05);border:1px solid #2a2c35;padding:0.5rem 1.2rem;border-radius:30px;color:#ccc;cursor:pointer;font-size:0.9rem;} .logout-btn:hover{border-color:#ff3333;color:#ff6666;}
-        .hero { text-align: center; padding: 2rem 1rem; }
+        .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; text-decoration: none; font-size: 0.9rem; }
+        .back-btn:hover { background: rgba(0,102,255,0.2); border-color: #0066ff; color: #0066ff; }
+        .logout-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; font-size: 0.9rem; }
+        .logout-btn:hover { border-color: #ff3333; color: #ff6666; }
+        .hero { text-align: center; padding: 2rem 1rem 1rem; }
         .hero h2 { font-size: 2rem; margin-bottom: 0.5rem; }
         .hero h2 span { color: #0066ff; }
-        .section { background: rgba(20, 24, 36, 0.6); border-radius: 24px; padding: 1.5rem; margin: 1.5rem 0; border: 1px solid rgba(0,102,255,0.2); }
-        .section-title { font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; border-left: 4px solid #0066ff; padding-left: 1rem; }
-        .wetboek-table { width: 100%; border-collapse: collapse; }
-        .wetboek-table th { text-align: left; padding: 10px; background: rgba(0,102,255,0.15); color: #0066ff; }
-        .wetboek-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .wetboek-table tr:hover { background: rgba(0,102,255,0.05); }
-        footer { background: #06080c; text-align: center; padding: 2rem; margin-top: 3rem; border-top: 1px solid #0066ff30; font-size: 0.8rem; color: #6b7280; }
-        @media (max-width: 768px) { .nav-flex { flex-direction: column; text-align: center; } .wetboek-table th, .wetboek-table td { padding: 6px; font-size: 0.8rem; } }
+        .section { background: rgba(20, 24, 36, 0.6); border-radius: 24px; padding: 1.5rem; margin: 1.5rem 0 3rem; border: 1px solid rgba(0,102,255,0.2); }
+        .doc-embed { width: 100%; height: 75vh; min-height: 500px; border: none; border-radius: 16px; background: #fff; }
+        .doc-actions { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+        .doc-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #0066ff; color: #fff; padding: 0.7rem 1.4rem;
+            border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+        }
+        .doc-link:hover { filter: brightness(1.1); }
+        .doc-hint { text-align: center; font-size: 0.75rem; color: #6b7280; margin-top: 0.8rem; }
+        footer { background: #06080c; text-align: center; padding: 2rem; border-top: 1px solid #0066ff30; font-size: 0.8rem; color: #6b7280; }
+        @media (max-width: 768px) { .doc-embed { height: 65vh; min-height: 400px; } }
     </style>
 </head>
 <body>
@@ -43,7 +48,10 @@
     <div class="container">
         <div class="nav-flex">
             <div class="logo"><i class="fas fa-gavel"></i><h1>Politie | <span>Wetboek</span></h1></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;"><a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Terug naar Dashboard</a><button type="button" class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Uitloggen</button></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Terug naar Dashboard</a>
+                <button type="button" class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Uitloggen</button>
+            </div>
         </div>
     </div>
 </header>
@@ -51,77 +59,29 @@
 <main class="container">
     <div class="hero">
         <h2>Wetboek van <span>Strafrecht</span></h2>
-        <p><i class="fas fa-gavel"></i> Strafrecht · Opiumwet · Wegenverkeerswet</p>
+        <p><i class="fas fa-gavel"></i> Officieel URP-wetboek · altijd up-to-date via Google Docs</p>
     </div>
 
-    <!-- STRAFRECHT -->
     <div class="section">
-        <div class="section-title"><i class="fas fa-balance-scale"></i><h3>STRAFRECHT</h3></div>
-        <table class="wetboek-table">
-            <thead><tr><th>Artikel</th><th>Omschrijving</th><th>Straf</th></tr></thead>
-            <tbody>
-                <tr><td><strong>184 Sr</strong></td><td>Negeren wettelijk bevel</td><td>1e: waarschuwing, 2e: waarschuwing, 3e: 10 mnd</td></tr>
-                <tr><td><strong>300 Sr</strong></td><td>Mishandeling burger</td><td>16 mnd</td></tr>
-                <tr><td><strong>300 Sr</strong></td><td>Mishandeling ambtenaar</td><td>18 mnd</td></tr>
-                <tr><td><strong>45 Sr</strong></td><td>Poging tot doodslag burger</td><td>22 mnd</td></tr>
-                <tr><td><strong>45 Sr</strong></td><td>Poging tot doodslag ambtenaar</td><td>26 mnd</td></tr>
-                <tr><td><strong>287 Sr</strong></td><td>Doodslag burger</td><td>24 mnd</td></tr>
-                <tr><td><strong>287 Sr</strong></td><td>Doodslag ambtenaar</td><td>28 mnd</td></tr>
-                <tr><td><strong>285b Sr</strong></td><td>Stalking</td><td>1e: waarschuwing, 2e: geldstraf, 3e: 12 mnd</td></tr>
-                <tr><td><strong>350 Sr</strong></td><td>Vandalisme</td><td>8 mnd</td></tr>
-                <tr><td><strong>350 Sr</strong></td><td>Brandstichting</td><td>8 mnd (levensgevaar: 12 mnd)</td></tr>
-                <tr><td><strong>326 Sr</strong></td><td>Oplichting</td><td>1 mnd per €1000,- schade</td></tr>
-                <tr><td><strong>461 Sr</strong></td><td>Inbraak privéterrein</td><td>6 mnd</td></tr>
-                <tr><td><strong>47 Sr</strong></td><td>Inbraak woning</td><td>8 mnd</td></tr>
-                <tr><td><strong>209 Sr</strong></td><td>Vals geld (zwartgeld)</td><td>1 mnd per €1000,-</td></tr>
-                <tr><td><strong>141 Sr</strong></td><td>Openbare geweldpleging</td><td>5 mnd</td></tr>
-                <tr><td><strong>160 Sr</strong></td><td>Vals identiteitsbewijs</td><td>6 mnd</td></tr>
-                <tr><td><strong>310 Sr</strong></td><td>Winkeloverval</td><td>10 mnd</td></tr>
-                <tr><td><strong>312 Sr</strong></td><td>Bankoverval</td><td>18 mnd</td></tr>
-                <tr><td><strong>312 Sr</strong></td><td>Juwelier overval</td><td>25 mnd</td></tr>
-                <tr><td><strong>311 Sr</strong></td><td>Pinautomaat overval</td><td>12 mnd</td></tr>
-                <tr><td><strong>317 Sr</strong></td><td>Persoonlijke overval</td><td>12 mnd</td></tr>
-                <tr><td><strong>416 Sr</strong></td><td>Voertuigdiefstal</td><td>6 mnd</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- OPIUMWET -->
-    <div class="section">
-        <div class="section-title"><i class="fas fa-leaf"></i><h3>OPIUMWET</h3></div>
-        <table class="wetboek-table">
-            <thead><tr><th>Overtreding</th><th>Hoeveelheid</th><th>Straf</th></tr></thead>
-            <tbody>
-                <tr><td>Cannabis (wiet) bezit</td><td>< 5 zakken</td><td>Gedoogd (wel waarschuwing)</td></tr>
-                <tr><td>Cannabis (wiet) bezit</td><td>5-10 zakken</td><td>3 mnd</td></tr>
-                <tr><td>Cannabis (wiet) bezit</td><td>10+ zakken</td><td>6 mnd per 10 zakken</td></tr>
-                <tr><td>Cocaïne bezit</td><td>> 0 zakken</td><td>8 mnd per 10 zakken</td></tr>
-                <tr><td>Meth bezit</td><td>> 0 zakken</td><td>12 mnd per 10 zakken</td></tr>
-                <tr><td>Produceren (kwekerij/lab)</td><td>-</td><td>6 mnd</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- WEGENVERKEERSWET -->
-    <div class="section">
-        <div class="section-title"><i class="fas fa-car"></i><h3>WEGENVERKEERSWET (WVW)</h3></div>
-        <table class="wetboek-table">
-            <thead><tr><th>Artikel</th><th>Omschrijving</th><th>Straf</th></tr></thead>
-            <tbody>
-                <tr><td><strong>5 WVW</strong></td><td>Gevaar op de weg (roekeloos rijden)</td><td>10 mnd</td></tr>
-                <tr><td><strong>6 WVW</strong></td><td>Dood door schuld</td><td>20 mnd</td></tr>
-                <tr><td><strong>6 WVW</strong></td><td>Letsel door schuld</td><td>14 mnd</td></tr>
-                <tr><td><strong>7 WVW</strong></td><td>Vluchtmisdrijf (doorrijden)</td><td>12 mnd</td></tr>
-                <tr><td><strong>10 WVW</strong></td><td>Organiseren straatrace</td><td>12 mnd</td></tr>
-                <tr><td><strong>177 WVW</strong></td><td>Rijden zonder rijbewijs</td><td>1e: bekeuring, 2e: bekeuring + inbeslagname, 3e: 6 mnd</td></tr>
-            </tbody>
-        </table>
+        <iframe class="doc-embed" id="wetboekFrame" title="Wetboek van Strafrecht URP"></iframe>
+        <div class="doc-actions">
+            <a href="#" id="wetboekOpenLink" target="_blank" rel="noopener" class="doc-link">
+                <i class="fas fa-external-link-alt"></i> Open in Google Docs
+            </a>
+        </div>
+        <p class="doc-hint">Wijzigingen in het Google Doc worden automatisch hier getoond.</p>
     </div>
 </main>
 
 <footer>
     <p>© 2026 Overheid Portaal | Politie Divisie</p>
 </footer>
-<script>requireAuth('politie');</script>
+
+<script src="/js/wetboek-config.js"></script>
+<script>
+    document.getElementById('wetboekFrame').src = URP_WETBOEK.previewUrl;
+    document.getElementById('wetboekOpenLink').href = URP_WETBOEK.editUrl;
+    requireAuth('politie');
+</script>
 </body>
 </html>

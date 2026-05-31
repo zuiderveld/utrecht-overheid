@@ -251,13 +251,6 @@
 
     // Moet EXACT overeenkomen met Discord → OAuth2 → Redirects
     function getRedirectUri() {
-        const host = window.location.hostname;
-        if (host === 'overheid.utrechtroleplay.eu') {
-            return 'http://overheid.utrechtroleplay.eu/';
-        }
-        if (host === 'utrecht-overheid.vercel.app') {
-            return 'https://utrecht-overheid.vercel.app/';
-        }
         return window.location.origin + '/';
     }
 
