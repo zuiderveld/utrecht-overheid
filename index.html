@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URP | Overheid Portaal</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0c10;
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            color: #eef2ff;
+            line-height: 1.5;
+        }
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 30% 40%, #0f172a 0%, #0a0c10 100%);
+            z-index: -2;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            background: rgba(20, 24, 36, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 2.5rem;
+            border: 1px solid rgba(0, 206, 209, 0.35);
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .logo-img {
+            width: 120px;
+            height: auto;
+            margin-bottom: 1rem;
+            border-radius: 16px;
+        }
+        .logo h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .logo span {
+            color: #00ced1;
+        }
+        .logo p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .btn-discord {
+            background: #5865f2;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+        }
+        .btn-discord:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            color: #ccc;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid #2a2c35;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.8rem;
+            width: 100%;
+        }
+        .btn-secondary:hover { border-color: #ff3333; color: #ff6666; }
+        .btn-dashboard {
+            background: #00ced1;
+            color: #0a0c10;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .logged-in-box {
+            display: none;
+            padding: 1rem;
+            background: rgba(0, 206, 209, 0.1);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+        }
+        .logged-in-box .user-name { font-weight: 700; color: #00ced1; }
+        .diensten {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .dienst {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        .dienst i {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .dienst.politie i { color: #0066ff; }
+        .dienst.kmar i { color: #ff9900; }
+        .dienst.ambulance i { color: #ff3333; }
+        .dienst.pechhulp i { color: #33cc33; }
+        .error {
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            color: #ff6666;
+            display: none;
+        }
+        .loading {
+            margin-top: 1rem;
+            color: #9ca3af;
+            display: none;
+        }
+        .hint {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+        footer {
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="container">
+    <div class="login-box">
+        <div class="logo">
+            <img src="/assets/favicon.png" alt="URP Logo" class="logo-img">
+            <h1>URP <span>Overheid</span></h1>
+            <p>Eén loket voor Politie, KMar, Ambulance & Pechhulp</p>
+        </div>
+
+        <div id="loggedInBox" class="logged-in-box">
+            <p>Ingelogd als <span class="user-name" id="loggedInUser"></span></p>
+            <p style="font-size:0.85rem;margin:0.5rem 0;">Dienst: <strong id="loggedInDienst"></strong></p>
+            <a href="#" id="dashboardLink" class="btn-dashboard"><i class="fas fa-tachometer-alt"></i> Naar dashboard</a>
+            <button type="button" class="btn-secondary" onclick="uitloggen()"><i class="fas fa-sign-out-alt"></i> Uitloggen</button>
+        </div>
+
+        <div id="loginForm">
+            <div id="errorMessage" class="error">
+                <i class="fas fa-exclamation-triangle"></i> <span id="errorText"></span>
+            </div>
+
+            <button type="button" class="btn-discord" onclick="loginMetDiscord()">
+                <i class="fab fa-discord"></i> Inloggen met Discord
+            </button>
+
+            <div id="loadingIndicator" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Discord rollen controleren...
+            </div>
+
+            <p class="hint">
+                <i class="fas fa-shield-alt"></i> Je hebt de juiste Discord-rol nodig voor je dienst (Politie, KMar, Ambulance of Pechhulp/ANWB).
+            </p>
+        </div>
+
+        <div class="diensten">
+            <div class="dienst politie"><i class="fas fa-shield-alt"></i> Politie</div>
+            <div class="dienst kmar"><i class="fas fa-passport"></i> KMar</div>
+            <div class="dienst ambulance"><i class="fas fa-ambulance"></i> Ambulance</div>
+            <div class="dienst pechhulp"><i class="fas fa-wrench"></i> Pechhulp</div>
+        </div>
+
+        <footer>
+            <i class="fas fa-lock"></i> Beveiligde overheidsomgeving · Utrecht Roleplay
+        </footer>
+    </div>
+</div>
+
+<script src="/js/auth.js"></script>
+<script>
+    const BOT_API_URL = "https://overheid-bot.onrender.com";
+    const DISCORD_CLIENT_ID = "1105153603351609374";
+    const REDIRECT_URI = window.location.origin + window.location.pathname;
+    const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify%20guilds`;
+
+    const DIENST_NAMEN = {
+        politie: 'Politie',
+        kmar: 'KMar',
+        ambulance: 'Ambulance',
+        pechhulp: 'Pechhulp (ANWB)'
+    };
+
+    function toonIngelogdState() {
+        const dienst = sessionStorage.getItem('overheidDienst');
+        const user = sessionStorage.getItem('overheidUser');
+        if (!dienst || !user) return false;
+
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('loggedInBox').style.display = 'block';
+        document.getElementById('loggedInUser').textContent = user;
+        document.getElementById('loggedInDienst').textContent = DIENST_NAMEN[dienst] || dienst;
+        document.getElementById('dashboardLink').href = `/${dienst}/index.html`;
+        return true;
+    }
+
+    function uitloggen() {
+        logout();
+    }
+
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const accessToken = params.get('access_token');
+
+    if (accessToken) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+        verwerkDiscordLogin(accessToken);
+    } else if (!toonIngelogdState()) {
+        document.getElementById('loginForm').style.display = 'block';
+    }
+
+    async function verwerkDiscordLogin(token) {
+        const loadingDiv = document.getElementById('loadingIndicator');
+        const errorDiv = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.style.display = 'block';
+        loadingDiv.style.display = 'block';
+        errorDiv.style.display = 'none';
+
+        try {
+            const response = await fetch(`${BOT_API_URL}/api/verify`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ accessToken: token })
+            });
+
+            const data = await response.json();
+
+            if (data.dienst && DIENST_NAMEN[data.dienst]) {
+                sessionStorage.setItem('overheidDienst', data.dienst);
+                sessionStorage.setItem('overheidUser', data.username || 'Medewerker');
+                sessionStorage.setItem('overheidIsIbtDocent', data.isIbtDocent ? 'true' : 'false');
+                window.location.href = `/${data.dienst}/index.html`;
+            } else {
+                const msg = data.error || 'Geen toegang. Je mist de Discord-rol voor Politie, KMar, Ambulance of Pechhulp.';
+                throw new Error(msg);
+            }
+        } catch (err) {
+            errorText.textContent = err.message || 'Inloggen mislukt. Probeer opnieuw.';
+            errorDiv.style.display = 'block';
+            loadingDiv.style.display = 'none';
+        }
+    }
+
+    function loginMetDiscord() {
+        sessionStorage.removeItem('overheidDienst');
+        sessionStorage.removeItem('overheidUser');
+        sessionStorage.removeItem('overheidIsIbtDocent');
+        window.location.href = DISCORD_OAUTH_URL;
+    }
+</script>
+</body>
+</html>

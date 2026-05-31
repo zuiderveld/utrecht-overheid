@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMar | Informatie</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <script src="/js/auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0c10; font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; color: #eef2ff; line-height: 1.5; }
+        .bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 30% 40%, #0f172a 0%, #0a0c10 100%); z-index: -2; }
+        .header { background: rgba(10, 12, 18, 0.95); backdrop-filter: blur(12px); border-bottom: 2px solid #ff9900; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo i { font-size: 2rem; color: #ff9900; }
+        .logo h1 { font-size: 1.4rem; font-weight: 700; }
+        .logo span { color: #ff9900; }
+        .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; text-decoration: none; }
+        .back-btn:hover { background: rgba(255,153,0,0.2); border-color: #ff9900; color: #ff9900; }
+        .hero { text-align: center; padding: 2rem 1rem; }
+        .hero h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .hero h2 span { color: #ff9900; }
+        .section { background: rgba(20, 24, 36, 0.6); border-radius: 24px; padding: 1.5rem; margin: 1.5rem 0; border: 1px solid rgba(255,153,0,0.2); }
+        .section-title { font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; border-left: 4px solid #ff9900; padding-left: 1rem; }
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; }
+        .status-card { background: rgba(255,153,0,0.1); border-radius: 12px; padding: 0.8rem; text-align: center; }
+        .status-card strong { color: #ff9900; font-size: 1.1rem; }
+        .two-columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+        .info-card { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 1rem; }
+        .info-card h3 { color: #ff9900; margin-bottom: 0.5rem; }
+        footer { background: #06080c; text-align: center; padding: 2rem; margin-top: 3rem; border-top: 1px solid #ff990030; font-size: 0.8rem; color: #6b7280; }
+        @media (max-width: 768px) { .nav-flex { flex-direction: column; text-align: center; } .two-columns { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="bg"></div>
+
+<header class="header">
+    <div class="container">
+        <div class="nav-flex">
+            <div class="logo"><i class="fas fa-info-circle"></i><h1>KMar | <span>Informatie</span></h1></div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Terug naar Dashboard</a>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="hero">
+        <h2>KMar <span>Informatie</span></h2>
+        <p><i class="fas fa-info-circle"></i> Portofoon · Prioriteiten · Wapens · Rechten arrestant</p>
+    </div>
+
+    <!-- STATUSSEN 0-10 -->
+    <div class="section">
+        <div class="section-title"><i class="fas fa-radio"></i><h3>PORTOFOON STATUS (0-10)</h3></div>
+        <div class="status-grid">
+            <div class="status-card"><strong>Status 0</strong><br>In dienst</div>
+            <div class="status-card"><strong>Status 1</strong><br>Beschikbaar voor meldingen</div>
+            <div class="status-card"><strong>Status 2</strong><br>Aanrijdend / koppelt aan</div>
+            <div class="status-card"><strong>Status 3</strong><br>Ter plaatse</div>
+            <div class="status-card"><strong>Status 4</strong><br>Tijdelijk niet beschikbaar <span style="font-size:0.7rem;">(max 10 min)</span></div>
+            <div class="status-card"><strong>Status 5</strong><br>Koppelt af bij melding</div>
+            <div class="status-card"><strong>Status 6</strong><br>Spraak aanvraag <span style="font-size:0.7rem;">(NIET praten zonder toestemming)</span></div>
+            <div class="status-card"><strong>Status 7</strong><br>Spoed spraak <span style="font-size:0.7rem;">(direct spreken)</span></div>
+            <div class="status-card"><strong>Status 8</strong><br>Uit dienst</div>
+            <div class="status-card"><strong>Status 9</strong><br>Assistentie DSI/TPE <span style="font-size:0.7rem;">(alles laten vallen)</span></div>
+            <div class="status-card"><strong>Status 10</strong><br>Aanvraag locatie bij OvD-P / OPCO</div>
+        </div>
+    </div>
+
+    <!-- PRIORITEITEN -->
+    <div class="section">
+        <div class="section-title"><i class="fas fa-siren"></i><h3>PRIORITEITEN (1-3)</h3></div>
+        <div class="status-grid">
+            <div class="status-card"><strong style="color:#ff3333;">Prio 1</strong><br>Hoge spoed - lampen + sirenes</div>
+            <div class="status-card"><strong style="color:#ffaa33;">Prio 2</strong><br>Middel spoed - alleen lampen</div>
+            <div class="status-card"><strong style="color:#33cc33;">Prio 3</strong><br>Geen spoed - normaal rijden</div>
+        </div>
+    </div>
+
+    <!-- WAPEN CATEGORIEËN -->
+    <div class="section">
+        <div class="section-title"><i class="fas fa-gun"></i><h3>WAPEN CATEGORIEËN</h3></div>
+        <div class="status-grid">
+            <div class="status-card"><strong>Categorie 1</strong><br>Slagwapens (mes, knuppel)</div>
+            <div class="status-card"><strong>Categorie 2</strong><br>Pistolen (M1911, Glock 17)</div>
+            <div class="status-card"><strong>Categorie 3</strong><br>Automatische wapens (AK-12, Uzi, MAC-11)</div>
+        </div>
+    </div>
+
+    <!-- RECHTEN ARRESTANT -->
+    <div class="section">
+        <div class="section-title"><i class="fas fa-handcuffs"></i><h3>RECHTEN ARRESTANT</h3></div>
+        <div class="info-card" style="background: rgba(0,0,0,0.2);">
+            <div class="two-columns">
+                <div><strong>-</strong> U hoeft geen vragen te beantwoorden</div>
+                <div><strong>-</strong> U heeft recht op 1 telefoontje</div>
+                <div><strong>-</strong> Alles wat u zegt kan tegen u gebruikt worden</div>
+                <div><strong>-</strong> U heeft recht op medische zorg</div>
+                <div><strong>-</strong> U heeft recht op een advocaat (anders toegewezen)</div>
+                <div><strong>-</strong> U heeft recht op eten en drinken</div>
+                <div><strong>-</strong> U heeft recht op een tolk indien nodig</div>
+            </div>
+            <p style="margin-top: 1rem; background: rgba(255,153,0,0.2); padding: 0.8rem; border-radius: 12px; text-align: center;">
+                <strong>Standaard vraag:</strong> "Wilt u gebruikmaken van één van deze rechten?"
+            </p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>© 2026 Overheid Portaal | KMar Divisie</p>
+</footer>
+<script>requireAuth('kmar');</script>
+</body>
+</html>
