@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
-    
     <script src="/js/auth-guard-inline.js"></script>
     <script src="/js/maintenance-check.js"></script>
 <meta charset="UTF-8">
@@ -13,7 +12,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0c10; font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; color: #eef2ff; line-height: 1.5; }
-        .bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 30% 40%, #0f172a 0%, #0a0c10 100%); z-index: -2; }
+        .bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 30% 40%, #1a0f0f 0%, #0a0c10 100%); z-index: -2; }
         .header { background: rgba(10, 12, 18, 0.95); backdrop-filter: blur(12px); border-bottom: 2px solid #ff3333; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
@@ -63,63 +62,62 @@
 <main class="container">
     <div class="hero">
         <h2>Ambulance <span>Dashboard</span></h2>
-        <p><i class="fas fa-gavel"></i> Handhaving met respect · Dienstbaar · Professioneel</p>
+        <p><i class="fas fa-heartbeat"></i> Zorgzaam · Professioneel · Samen veilig</p>
     </div>
     
     <div class="welcome" id="welcomeMessage"></div>
     
-    <!-- KANALEN / PAGINA'S (iedereen ziet dit) -->
     <div class="section-title"><i class="fas fa-folder-open"></i> <h3>📂 KANALEN</h3></div>
     <div class="cards-grid">
-        <a href="regels.html" class="card"><i class="fas fa-list"></i><h3>Regels</h3><p>Ambulance gedragscode en procedures</p></a>
-        <a href="info.html" class="card"><i class="fas fa-info-circle"></i><h3>Informatie</h3><p>Porto, prioriteiten, wapens</p></a>
-        <a href="wetboek.html" class="card"><i class="fas fa-gavel"></i><h3>Wetboek</h3><p>Strafrecht, Opiumwet, WVW</p></a>
-        <a href="trainingen.html" class="card"><i class="fas fa-graduation-cap"></i><h3>Trainingen</h3><p>Alle trainingen per rang</p></a>
-        <a href="toetsen.html" class="card"><i class="fas fa-clipboard-list"></i><h3>Kennistoetsen</h3><p>Toets je kennis + certificaat</p></a>
-        <a href="handboeken.html" class="card"><i class="fas fa-file-pdf"></i><h3>Handboeken</h3><p>PDF handleidingen</p></a>
+        <a href="regels.html" class="card"><i class="fas fa-list"></i><h3>Regels</h3><p>Gedragscode, zorg & samenwerking</p></a>
+        <a href="info.html" class="card"><i class="fas fa-info-circle"></i><h3>Informatie</h3><p>Porto, prio’s, triage & patiënt</p></a>
+        <a href="wetboek.html" class="card"><i class="fas fa-gavel"></i><h3>Wetboek</h3><p>Relevante wetgeving (RP)</p></a>
+        <a href="trainingen.html" class="card"><i class="fas fa-graduation-cap"></i><h3>Trainingen</h3><p>Opleidingen per functie</p></a>
+        <a href="toetsen.html" class="card"><i class="fas fa-clipboard-list"></i><h3>Kennistoetsen</h3><p>Toets + certificaat</p></a>
+        <a href="handboeken.html" class="card"><i class="fas fa-file-pdf"></i><h3>Handboeken</h3><p>Protocollen & handleidingen</p></a>
     </div>
     
-    <!-- ALLEEN IBT DOCENTEN ZIEN DIT (PowerPoints met directe links) -->
     <div id="pptSection" style="display: none;">
         <div class="section-title ppt-section" style="border-left-color: #ff6600;">
             <i class="fas fa-chalkboard-user"></i> 
-            <h3>📊 POWERPOINTS <span>(IBT Docenten)</span></h3>
+            <h3>📊 POWERPOINTS <span>(Opleiding / Docent)</span></h3>
         </div>
         <div class="cards-grid" id="pptGrid"></div>
     </div>
 </main>
 
 <footer>
-    <p>© 2026 Overheid Portaal | Ambulance Divisie</p>
+    <p>© 2026 Overheid Portaal | Ambulance / Geneeskundige Hulpverlening</p>
 </footer>
 
 <script>
-    // PowerPoint bestanden - MET DE JUISTE LINKS!
     const pptBestanden = [
         { 
-            naam: "Basistraining V2.3", 
-            link: "https://docs.google.com/presentation/d/18BSoMZrQT9V8k42Fwmdet9zgCRHwHAJeSBwn0ZuzxbY/edit?slide=id.g3253de33dd6_1_10#slide=id.g3253de33dd6_1_10",
-            icoon: "fa-chalkboard-user", 
-            beschrijving: "Etherdiscipline, statussen, fouilleren, rechten & plichten" 
+            naam: "Basisopleiding Ambulance", 
+            link: "",
+            icoon: "fa-book-medical", 
+            beschrijving: "Porto, statussen, prio’s, patiëntcontact & veiligheid",
+            komtLater: true
         },
         { 
-            naam: "Geweldsmiddelen Training", 
-            link: "https://docs.google.com/presentation/d/1KuPclEafVrkJDKGh8c7Rxl-qleb8SF3iCMbuEdty5-E/edit?slide=id.p#slide=id.p",
-            icoon: "fa-shield-virus", 
-            beschrijving: "Geweldsbeheersingskader, IBT, stroomstootwapen" 
+            naam: "Reanimatie & AED", 
+            link: "",
+            icoon: "fa-heart-pulse", 
+            beschrijving: "BLS, AED, borstcompressies & teamrol",
+            komtLater: true
         },
         { 
-            naam: "Vuurwapen Training", 
+            naam: "Trauma & stabilisatie", 
+            link: "",
+            icoon: "fa-user-injured", 
+            beschrijving: "Letselbeoordeling, immobilisatie & transport",
+            komtLater: true
+        },
+        { 
+            naam: "Medicatie & protocollen", 
             link: "", 
-            icoon: "fa-gun", 
-            beschrijving: "Veilig gebruik, schiettechnieken",
-            komtLater: true 
-        },
-        { 
-            naam: "MEOS Training", 
-            link: "", 
-            icoon: "fa-laptop", 
-            beschrijving: "Meldkamer systeem",
+            icoon: "fa-syringe", 
+            beschrijving: "Alleen met juiste rang & bevoegdheid",
             komtLater: true 
         }
     ];
@@ -129,7 +127,7 @@
         if (!container) return;
         container.innerHTML = pptBestanden.map(ppt => {
             if (ppt.komtLater || !ppt.link) {
-                return `<div class="card ppt-card" style="opacity:0.6; cursor:not-allowed;" onclick="alert('Deze PowerPoint komt binnenkort beschikbaar')">
+                return `<div class="card ppt-card" style="opacity:0.6; cursor:not-allowed;" onclick="alert('Deze PowerPoint wordt nog gekoppeld door opleiding')">
                             <i class="fas ${ppt.icoon}" style="color:#ff6600;"></i>
                             <h3>${ppt.naam}</h3>
                             <p>${ppt.beschrijving}</p>

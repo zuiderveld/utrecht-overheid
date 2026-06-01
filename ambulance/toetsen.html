@@ -78,69 +78,63 @@
 <script src="/js/certificaat-download.js"></script>
 <script>
     const toetsen = [
-        { id: "basistraining", training: "Basistraining", rang: "Aspirant / IBT", beschrijving: "Etherdiscipline, statussen, fouilleren, staande houden, rechten & plichten",
+        { id: "basis", training: "Basisopleiding", rang: "Chauffeur / Aspirant", beschrijving: "Porto, statussen, prio’s en veiligheid op scene",
           vragen: [
-              { vraag: "Wat doe je bij Status 7?", opties: ["In dienst", "Spoed spraak (direct spreken toegestaan)", "Uit dienst", "Ter plaatse"], antwoord: 1 },
-              { vraag: "Wanneer mag je iemand fouilleren?", opties: ["Altijd", "Alleen bij aanhouding of verdenking van wapenbezit", "Als je dat wilt", "Als iemand boos kijkt"], antwoord: 1 },
-              { vraag: "Wat is de eerste stap bij een aanhouding?", opties: ["Handboeien omdoen", "Rechten voorlezen + reden aanhouding", "Wapens gebruiken", "Naar bureau brengen"], antwoord: 1 },
-              { vraag: "Wat is NIET toegestaan bij een achtervolging?", opties: ["Sirenes voeren", "PIT manoeuvre", "Schieten op vluchtend voertuig zonder levensgevaar", "Om hulp vragen via porto"], antwoord: 2 },
-              { vraag: "Wat doe je als een verdachte zwijgt?", opties: ["Dwingen te praten", "Zwijgrecht respecteren", "Celstraf geven", "Direct laten gaan"], antwoord: 1 }
+              { vraag: "Wat betekent Status 7 op de porto?", opties: ["Ter plaatse", "Spoed spraak (direct spreken)", "Uit dienst", "Transport naar ziekenhuis"], antwoord: 1 },
+              { vraag: "Wanneer gebruik je Prio 1?", opties: ["Bij routinevervoer", "Bij levensbedreigende spoed", "Altijd", "Nooit met sirenes"], antwoord: 1 },
+              { vraag: "Wat is je eerste taak bij aankomst op een ongeval?", opties: ["Patiënt fouilleren", "Veiligheid scene + eigen veiligheid", "Direct reanimeren zonder kijken", "Wegrijden"], antwoord: 1 },
+              { vraag: "Mag jij als ambulance iemand arresteren?", opties: ["Ja, bij verdenking", "Nee, dat is politie/KMar", "Alleen met wapen", "Alleen op ziekenhuis"], antwoord: 1 },
+              { vraag: "Wat meld je bij vertrek naar melding?", opties: ["Status 10", "Aanrijden + locatie", "Uit dienst", "Niets"], antwoord: 1 }
           ] },
-        { id: "offroad", training: "Offroad Training", rang: "Surveillant", beschrijving: "Offroad rijden, terrein navigatie en voertuigcontrole",
+        { id: "rijspoed", training: "Rijopleiding spoed", rang: "Verpleegkundige", beschrijving: "Prio-ritten, sirenes en veilig transport",
           vragen: [
-              { vraag: "Wat is belangrijk bij offroad rijden?", opties: ["Hoge snelheid behouden", "Bandenspanning en voertuigcontrole", "Altijd met sirenes rijden", "Geen communicatie gebruiken"], antwoord: 1 },
-              { vraag: "Wat doe je bij een zoekactie in bosrijk terrein?", opties: ["Alleen verder gaan", "Koppelen met collega's en grid zoeken", "Willekeurig rondrijden", "Achtervolging starten"], antwoord: 1 },
-              { vraag: "Welk voertuig is geschikt voor offroad?", opties: ["Undercover auto", "Offroad voertuig / Terreinwagen", "Motor zonder aanpassingen", "Ambulance bus"], antwoord: 1 }
+              { vraag: "Bij spoedrit (Prio 1) gebruik je:", opties: ["Alleen lampen", "Lampen en sirenes", "Geen signalen", "Claxon alleen"], antwoord: 1 },
+              { vraag: "Wat gaat voor bij een spoedrit?", opties: ["Snelheid om elke prijs", "Veiligheid burgers en verkeer", "Achtervolging", "Parkeren op rijbaan"], antwoord: 1 },
+              { vraag: "Wat meld je bij aankomst ziekenhuis?", opties: ["Status 0", "Ter plaatse ziekenhuis / overdracht", "Uit dienst", "Prio 3"], antwoord: 1 }
           ] },
-        { id: "tactisch", training: "Tactische Weerbaarheid", rang: "Surveillant", beschrijving: "Dienstwapen, taser, wapenstok en de-escalatie",
+        { id: "reanimatie", training: "Reanimatie & AED", rang: "Verpleegkundige", beschrijving: "BLS, AED en teamreanimatie",
           vragen: [
-              { vraag: "Wanneer mag je je dienstwapen trekken?", opties: ["Bij elke discussie", "Alleen bij dreigende situatie en na waarschuwing", "Als je boos bent", "Bij een verkeersboete"], antwoord: 1 },
-              { vraag: "Wat is de-escalatie?", opties: ["Meer geweld gebruiken", "Situatie rustig proberen op te lossen met communicatie", "Weglopen", "Direct aanhouden"], antwoord: 1 },
-              { vraag: "Wat is een proportioneel geweldsmiddel bij verzet?", opties: ["Dienstwapen", "Wapenstok", "Taser", "Afhankelijk van de situatie, trap oplopend"], antwoord: 3 },
-              { vraag: "Wat is de eerste stap bij een verdachte met een mes?", opties: ["Direct schieten", "Afstand houden en praten", "Aanvallen", "Weg rennen"], antwoord: 1 }
+              { vraag: "Wat check je eerst bij een bewusteloze?", opties: ["Portemonnee", "Ademhaling en bewustzijn", "Kenteken", "Handboeien"], antwoord: 1 },
+              { vraag: "Hoe vaak per minuut borstcompressies (volwassene)?", opties: ["60-80", "100-120", "200", "30"], antwoord: 1 },
+              { vraag: "Wat doe je bij AED: 'schok adviseren'?", opties: ["Niets", "Iedereen weg van patiënt, schokken", "Water geven", "Patiënt optillen"], antwoord: 1 },
+              { vraag: "Bewusteloos en ademt wel — dan:", opties: ["Stabiele zijligging", "Direct schokken", "Lat staan op buik", "Rechts slaan"], antwoord: 0 }
           ] },
-        { id: "rijtraining", training: "Rijtraining", rang: "Surveillant", beschrijving: "Stadsverkeer, sirenes, communicatie en noodstops",
+        { id: "trauma", training: "Trauma & letsel", rang: "MMT / Specialist", beschrijving: "Assessment, bloedverlies en immobilisatie",
           vragen: [
-              { vraag: "Bij Prio 1 rit gebruik je:", opties: ["Alleen lampen", "Lampen + sirenes", "Normaal rijden", "Geen signalen"], antwoord: 1 },
-              { vraag: "Hoe communiceer je een noodstop?", opties: ["Niet, gewoon stoppen", "Porto: 'Noodstop, noodstop, noodstop'", "Zwaaien", "Claxon"], antwoord: 1 },
-              { vraag: "Wat is de juiste volgorde bij een noodstop?", opties: ["Remmen, dan porto", "Porto, dan remmen", "Alleen remmen", "Alarm aanzetten"], antwoord: 0 }
+              { vraag: "Wat is START triage in het kort?", opties: ["Wapenprotocol", "Snel prioriteren slachtoffers", "Rijtraining", "Porto-discipline"], antwoord: 1 },
+              { vraag: "Bij ernstig bloedverlies uit arm, eerste stap:", opties: ["Direct infuus zonder druk", "Drukverband / druk op wond", "Patiënt laten lopen", "Fouilleren"], antwoord: 1 },
+              { vraag: "Verdenking nekletsel — je doet:", opties: ["Hoofd vrij bewegen", "Nek immobiliseren, voorzichtig verplaatsen", "Reanimeren staand", "Wegrijden"], antwoord: 1 }
           ] },
-        { id: "siv", training: "SIV Training", rang: "Agent", beschrijving: "SIV, hoge snelheid en positionering",
+        { id: "mmt", training: "MMT / Rapid Responder", rang: "MMT", beschrijving: "Snelle interventie en geavanceerde stabilisatie",
           vragen: [
-              { vraag: "Wat is een SIV?", opties: ["Stille Interventie Voertuig", "Snel Interventie Voertuig", "Speciale Interventie", "Standaard Ambulance Auto"], antwoord: 1 },
-              { vraag: "Wat is belangrijk bij een SIV achtervolging?", opties: ["Alleen rijden", "Altijd koppelrijden en communicatie", "Geen porto gebruiken", "Sirenes uitzetten"], antwoord: 1 },
-              { vraag: "Wat is de maximale snelheid bij een SIV achtervolging?", opties: ["50 km/u", "100 km/u", "Afhankelijk van situatie en wegdek", "200 km/u"], antwoord: 2 }
+              { vraag: "Wat is het doel van MMT?", opties: ["Achtervolging", "Snelle medische stabilisatie op scene", "Arrestaties", "Boetes uitdelen"], antwoord: 1 },
+              { vraag: "Bij schietpartij zonder vrijgave politie:", opties: ["Direct naar slachtoffer rennen", "Wachten op veilige scene", "Wapen pakken", "Weglopen zonder melding"], antwoord: 1 },
+              { vraag: "Overdracht aan ziekenhuis RP:", opties: ["Geen info geven", "Kort: letsel, behandeling, tijd", "Alleen naam", "Alleen porto uit"], antwoord: 1 }
           ] },
-        { id: "motor", training: "Motor Training", rang: "Hoofdagent", beschrijving: "Motorrijden, veiligheid en verkeerscontrole",
+        { id: "ovdg", training: "Coördinatie & GGB", rang: "OvD-G / Leiding", beschrijving: "Meerdere slachtoffers en inzet voertuigen",
           vragen: [
-              { vraag: "Welke bescherming is verplicht op de motor?", opties: ["Alleen helm", "Helm, handschoenen, motorpak", "Niets", "Zonnebril"], antwoord: 1 },
-              { vraag: "Hoe stop je een motor veilig bij een achtervolging?", opties: ["Blokkeren", "Overhellen en remmen", "Springen", "Stoppen midden op de weg"], antwoord: 1 },
-              { vraag: "Wat is het grootste gevaar voor een motorrijder?", opties: ["Snelheid", "Andere weggebruikers die je over het hoofd zien", "Boetes", "Brandstof"], antwoord: 1 }
+              { vraag: "Rol OvD-G bij groot ongeval:", opties: ["Alleen rijden", "Coördineren ambulance-inzet", "Politie leiden", "Wetboek schrijven"], antwoord: 1 },
+              { vraag: "Meer slachtoffers dan voertuigen — eerst:", opties: ["Willekeurig helpen", "Triage en prioriteit bepalen", "Iedereen naar zelfde ziekenhuis zonder overleg", "Stoppen"], antwoord: 1 },
+              { vraag: "Communicatie met meldkamer:", opties: ["Geen updates", "Aantal slachtoffers, status, extra eenheden", "Alleen privé", "Alleen Discord"], antwoord: 1 }
           ] },
-        { id: "um", training: "UM Training", rang: "Brigadier", beschrijving: "Unmarked rijden, observatie en tactisch rijden",
+        { id: "lifeliner", training: "Lifeliner / Helikopter", rang: "OvD-G / Specialist", beschrijving: "Luchttransport en landingzone",
           vragen: [
-              { vraag: "Wat is een UM voertuig?", opties: ["Ambulance auto met opvallende kleuren", "Undercover / onopvallend Ambulancevoertuig", "Helikopter", "Motor met Ambulance stickers"], antwoord: 1 },
-              { vraag: "Waar moet je op letten bij UM rijden?", opties: ["Opvallen", "Zo naturel mogelijk rijden", "Altijd sirenes voeren", "Andere auto's blokkeren"], antwoord: 1 },
-              { vraag: "Mag je als UM een achtervolging starten zonder backup?", opties: ["Ja, altijd", "Nee, nooit", "Alleen bij levensgevaar", "Alleen met toestemming"], antwoord: 1 }
+              { vraag: "Landingzone voor helikopter moet:", opties: ["Vol staan met auto's", "Vrij, veilig en groot genoeg zijn", "In tunnel", "Op snelweg zonder afzetting"], antwoord: 1 },
+              { vraag: "Overdracht luchtambulance:", opties: ["Geen overleg", "Duidelijke overdracht vitale gegevens", "Alleen porto uit", "Patiënt alleen laten"], antwoord: 1 },
+              { vraag: "Helikopter bij gevaarlijke scene:", opties: ["Altijd direct landen", "Alleen na veilige afzetting/coördinatie", "Niet communiceren", "Zelf landen zonder melding"], antwoord: 1 }
           ] },
-        { id: "onderhandelaar", training: "Onderhandelaar Training", rang: "Brigadier", beschrijving: "Crisiscommunicatie en onderhandelingstechnieken",
+        { id: "medicatie", training: "Medicatie (beperkt)", rang: "Met certificaat", beschrijving: "Alleen na training en goedkeuring",
           vragen: [
-              { vraag: "Wat is de eerste stap bij een gijzeling?", opties: ["Aanvallen", "Contact leggen en rustig blijven", "Weglopen", "Helikopter inzetten"], antwoord: 1 },
-              { vraag: "Wat is actief luisteren?", opties: ["Niet luisteren", "Samenvatten en doorvragen", "Alleen knikken", "Aantekeningen maken"], antwoord: 1 },
-              { vraag: "Wat is het doel van onderhandelen?", opties: ["Winnen", "Wederzijds acceptabele oplossing", "Tijdrekken", "Overtuigen"], antwoord: 1 }
+              { vraag: "Medicatie toedienen mag als:", opties: ["Iedereen dat wil", "Je certificaat/training en protocol hebt", "Patiënt het vraagt", "Politie het zegt"], antwoord: 1 },
+              { vraag: "Geen certificaat medicatie — dan:", opties: ["Toch geven", "Niet toedienen, stabiliseren en overleg", "Dubbele dosis", "Verkopen"], antwoord: 1 },
+              { vraag: "Allergie onbekend bij medicatie:", opties: ["Gokken", "Voorzichtig, overleg leiding, protocol volgen", "Niet vragen", "Alles geven"], antwoord: 1 }
           ] },
-        { id: "zulu", training: "Zulu Training", rang: "Inspecteur", beschrijving: "Helikopter, luchtcoördinatie en zoekacties",
+        { id: "ehbo", training: "EHBO / Eerste hulp", rang: "Alle functies", beschrijving: "Basis stabilisatie en wondverzorging",
           vragen: [
-              { vraag: "Wat is de rol van Zulu bij een achtervolging?", opties: ["Grondondersteuning", "Luchtsteun en coördinatie", "Arrestaties verrichten", "Forensisch onderzoek"], antwoord: 1 },
-              { vraag: "Hoe communiceer je met Zulu?", opties: ["Geen communicatie", "Porto / Speciaal luchtkanaal", "Alleen via telefoon", "Gebaarspraak"], antwoord: 1 },
-              { vraag: "Wat is een voordeel van luchtsteun?", opties: ["Snelheid", "Overzicht en coördinatie", "Stilte", "Verrassing"], antwoord: 1 }
-          ] },
-        { id: "ehbo", training: "EHBO Training", rang: "Alle rangen", beschrijving: "Eerste hulp, reanimatie en wondverzorging",
-          vragen: [
-              { vraag: "Wat is de eerste stap bij een slachtoffer?", opties: ["Weggaan", "Veiligheid checken + aanspreken", "Direct reanimeren", "112 bellen"], antwoord: 1 },
-              { vraag: "Hoe diep moet je masseren bij reanimatie?", opties: ["1-2 cm", "5-6 cm", "10 cm", "Lichtjes aanraken"], antwoord: 1 },
-              { vraag: "Wat doe je bij een bewusteloos slachtoffer dat ademt?", opties: ["In stabiele zijligging leggen", "Optillen", "Water geven", "Laten zitten"], antwoord: 0 },
-              { vraag: "Hoe vaak per minuut moet je borstcompressies geven?", opties: ["60-80", "100-120", "150-180", "200"], antwoord: 1 }
+              { vraag: "Eerste stap bij slachtoffer?", opties: ["Veiligheid + aanspreken", "Direct weg", "Fouilleren", "Foto maken"], antwoord: 0 },
+              { vraag: "Diepe borstcompressies ongeveer:", opties: ["1 cm", "5-6 cm", "20 cm", "Niet masseren"], antwoord: 1 },
+              { vraag: "Ernstige bloeding — helpend:", opties: ["Druk op wond", "Water drinken geven", "Patiënt rennen laten", "Niets doen"], antwoord: 0 },
+              { vraag: "Privacy patiënt RP:", opties: ["Alles in global chat", "Beperk info tot noodzakelijk", "ID op Twitter", "Live streamen"], antwoord: 1 }
           ] }
     ];
 
