@@ -35,6 +35,10 @@
         .two-columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
         .info-card { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 1rem; }
         .info-card h3 { color: #ff3333; margin-bottom: 0.5rem; }
+        .rule-list { list-style: none; padding: 0; }
+        .rule-list li { padding: 0.4rem 0; display: flex; gap: 0.5rem; align-items: flex-start; }
+        .rule-list li i { color: #ff3333; margin-top: 0.2rem; }
+        .hint-box { margin-top: 1rem; background: rgba(255,51,51,0.15); border: 1px solid rgba(255,51,51,0.3); border-radius: 12px; padding: 0.8rem 1rem; font-size: 0.95rem; }
         footer { background: #06080c; text-align: center; padding: 2rem; margin-top: 3rem; border-top: 1px solid #ff333330; font-size: 0.8rem; color: #6b7280; }
         @media (max-width: 768px) { .nav-flex { flex-direction: column; text-align: center; } .two-columns { grid-template-columns: 1fr; } }
     </style>
@@ -54,61 +58,47 @@
 <main class="container">
     <div class="hero">
         <h2>Ambulance <span>Informatie</span></h2>
-        <p><i class="fas fa-info-circle"></i> Portofoon · Spoedprioriteit · Triage · Patiëntzorg</p>
+        <p><i class="fas fa-info-circle"></i> Porto-beleid · Porto-status · Patiënt behandelen</p>
     </div>
 
     <div class="section">
-        <div class="section-title"><i class="fas fa-radio"></i><h3>PORTOFOON STATUS (0–10)</h3></div>
-        <div class="status-grid">
-            <div class="status-card"><strong>Status 0</strong><br>In dienst</div>
-            <div class="status-card"><strong>Status 1</strong><br>Beschikbaar voor meldingen</div>
-            <div class="status-card"><strong>Status 2</strong><br>Aanrijdend / gekoppeld aan melding</div>
-            <div class="status-card"><strong>Status 3</strong><br>Ter plaatse — behandeling</div>
-            <div class="status-card"><strong>Status 4</strong><br>Tijdelijk niet beschikbaar <span style="font-size:0.7rem;">(max 10 min)</span></div>
-            <div class="status-card"><strong>Status 5</strong><br>Transport naar ziekenhuis</div>
-            <div class="status-card"><strong>Status 6</strong><br>Spraak aanvraag <span style="font-size:0.7rem;">(wacht op toestemming)</span></div>
-            <div class="status-card"><strong>Status 7</strong><br>Spoed spraak <span style="font-size:0.7rem;">(direct melden)</span></div>
-            <div class="status-card"><strong>Status 8</strong><br>Uit dienst</div>
-            <div class="status-card"><strong>Status 9</strong><br>GGB / MMT-assistentie <span style="font-size:0.7rem;">(massale hulpverlening)</span></div>
-            <div class="status-card"><strong>Status 10</strong><br>Locatieaanvraag OvD-G / meldkamer</div>
+        <div class="section-title"><i class="fas fa-broadcast-tower"></i><h3>1. Porto-beleid</h3></div>
+        <div class="info-card">
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Als ambulance wordt porto <strong>kanaal 5</strong> gebruikt.</li>
+                <li><i class="fas fa-check-circle"></i> Je dient ten aller tijden in de porto deel te nemen tijdens uw dienst.</li>
+                <li><i class="fas fa-check-circle"></i> Behoudt dan ook alle rust en zorg voor een professionele porto-communicatie.</li>
+                <li><i class="fas fa-check-circle"></i> Heb respect voor elkaar.</li>
+                <li><i class="fas fa-check-circle"></i> Je hebt ten aller tijden uw roepnummer + naam in de porto.</li>
+            </ul>
+            <p class="hint-box"><i class="fas fa-terminal"></i> Dit kan door middel van <code>/nameinradio -Roepnummer+naam-</code></p>
         </div>
     </div>
 
     <div class="section">
-        <div class="section-title"><i class="fas fa-siren"></i><h3>SPOEDPRIORITEIT (1–3)</h3></div>
+        <div class="section-title"><i class="fas fa-radio"></i><h3>2. Porto-status</h3></div>
         <div class="status-grid">
-            <div class="status-card"><strong style="color:#ff3333;">Prio 1</strong><br>Reanimatie, bewusteloos niet aanspreekbaar, levensbedreigend letsel</div>
-            <div class="status-card"><strong style="color:#ffaa33;">Prio 2</strong><br>Ernstig letsel, bewustzijnsstoornis, hevige pijn</div>
-            <div class="status-card"><strong style="color:#33cc33;">Prio 3</strong><br>Licht letsel, controle, niet-spoed transport</div>
+            <div class="status-card"><strong>Status 0</strong><br>Aanmelden portofoon <span style="font-size:0.7rem;">(wordt niet gebruikt)</span></div>
+            <div class="status-card"><strong>Status 1</strong><br>Beschikbaar voor een nieuwe melding</div>
+            <div class="status-card"><strong>Status 2</strong><br>Onderweg naar de melding</div>
+            <div class="status-card"><strong>Status 3</strong><br>Ter plaatse aangekomen</div>
+            <div class="status-card"><strong>Status 4</strong><br>Niet beschikbaar <span style="font-size:0.7rem;">(bezig)</span></div>
+            <div class="status-card"><strong>Status 5</strong><br>Spraakaanvraag <span style="font-size:0.7rem;">(verzoek om contact met de meldkamer)</span></div>
+            <div class="status-card"><strong>Status 6</strong><br>Spraakaanvraag urgent <span style="font-size:0.7rem;">(prioriteit)</span></div>
+            <div class="status-card"><strong>Status 7</strong><br>Spraakaanvraag SOS <span style="font-size:0.7rem;">(hierbij mag je direct communiceren in de porto)</span></div>
+            <div class="status-card"><strong>Status 8</strong><br>Buitendienst <span style="font-size:0.7rem;">(einde dienst)</span></div>
         </div>
     </div>
 
     <div class="section">
-        <div class="section-title"><i class="fas fa-tags"></i><h3>TRIAGE (START)</h3></div>
-        <div class="status-grid">
-            <div class="status-card"><strong style="color:#33cc33;">Groen</strong><br>Minor — kan wachten</div>
-            <div class="status-card"><strong style="color:#ffcc00;">Geel</strong><br>Delayed — binnen redelijke tijd</div>
-            <div class="status-card"><strong style="color:#ff3333;">Rood</strong><br>Immediate — direct levensreddend</div>
-            <div class="status-card"><strong style="color:#888;">Zwart</strong><br>Overleden / geen reanimatie-indicatie</div>
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><i class="fas fa-user-injured"></i><h3>PATIËNT & PRIVACY</h3></div>
-        <div class="info-card" style="background: rgba(0,0,0,0.2);">
-            <div class="two-columns">
-                <div><strong>-</strong> Altijd patiënt centraal — respect en waardigheid</div>
-                <div><strong>-</strong> Leg uit wat je doet (indien patiënt aanspreekbaar)</div>
-                <div><strong>-</strong> Medische info alleen delen met betrokken zorg/hulpdiensten</div>
-                <div><strong>-</strong> Geen foto’s of streams van slachtoffers zonder toestemming/staff</div>
-                <div><strong>-</strong> Wilsbekwame patiënt mag behandeling weigeren (RP-matig)</div>
-                <div><strong>-</strong> Bij minderjarigen: ouder/voogd waar passend</div>
-                <div><strong>-</strong> Overdracht ziekenhuis: korte SBAR (Situatie, Bevindingen, Actie, Aanbeveling)</div>
-                <div><strong>-</strong> Samenwerking met politie/KMar bij veiligheidssituaties</div>
-            </div>
-            <p style="margin-top: 1rem; background: rgba(255,51,51,0.2); padding: 0.8rem; border-radius: 12px; text-align: center;">
-                <strong>Standaard:</strong> "Ambulance, wat is er aan de hand?" — rustig, duidelijk, professioneel.
-            </p>
+        <div class="section-title"><i class="fas fa-user-injured"></i><h3>3. Patiënt behandelen</h3></div>
+        <div class="info-card">
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Behandel een patiënt ten aller tijden met respect.</li>
+                <li><i class="fas fa-check-circle"></i> Probeer de persoon aan te spreken en een band op te bouwen.</li>
+                <li><i class="fas fa-check-circle"></i> Behandel de patiënt dan op een leuke en uitgebreide manier.</li>
+                <li><i class="fas fa-check-circle"></i> Het behandelen van patiënten kan via het <strong>F6-menu</strong>.</li>
+            </ul>
         </div>
     </div>
 </main>
