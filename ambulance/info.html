@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0c10; font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; color: #eef2ff; line-height: 1.5; }
+        body { background: #0a0c10; font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; color: #eef2ff; line-height: 1.6; }
         .bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 30% 40%, #1a0f0f 0%, #0a0c10 100%); z-index: -2; }
         .header { background: rgba(10, 12, 18, 0.95); backdrop-filter: blur(12px); border-bottom: 2px solid #ff3333; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
         .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
@@ -22,25 +22,33 @@
         .logo span { color: #ff3333; }
         .back-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; text-decoration: none; }
         .back-btn:hover { background: rgba(255,51,51,0.2); border-color: #ff3333; color: #ff3333; }
-        .logout-btn{background:rgba(255,255,255,0.05);border:1px solid #2a2c35;padding:0.5rem 1.2rem;border-radius:30px;color:#ccc;cursor:pointer;font-size:0.9rem;}
-        .logout-btn:hover{border-color:#ff3333;color:#ff6666;}
+        .logout-btn { background: rgba(255,255,255,0.05); border: 1px solid #2a2c35; padding: 0.5rem 1.2rem; border-radius: 30px; color: #ccc; cursor: pointer; font-size: 0.9rem; }
+        .logout-btn:hover { border-color: #ff3333; color: #ff6666; }
         .hero { text-align: center; padding: 2rem 1rem; }
         .hero h2 { font-size: 2rem; margin-bottom: 0.5rem; }
         .hero h2 span { color: #ff3333; }
+        .hero p { color: #9ca3af; max-width: 720px; margin: 0.5rem auto 0; }
         .section { background: rgba(20, 24, 36, 0.6); border-radius: 24px; padding: 1.5rem; margin: 1.5rem 0; border: 1px solid rgba(255,51,51,0.2); }
         .section-title { font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; border-left: 4px solid #ff3333; padding-left: 1rem; }
-        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; }
-        .status-card { background: rgba(255,51,51,0.1); border-radius: 12px; padding: 0.8rem; text-align: center; }
-        .status-card strong { color: #ff3333; font-size: 1.1rem; }
-        .two-columns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
-        .info-card { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 1rem; }
-        .info-card h3 { color: #ff3333; margin-bottom: 0.5rem; }
+        .intro-text { color: #cbd5e1; margin-bottom: 0.5rem; }
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; }
+        .status-card { background: rgba(255,51,51,0.1); border-radius: 12px; padding: 0.9rem; }
+        .status-card strong { color: #ff3333; font-size: 1.05rem; display: block; margin-bottom: 0.35rem; }
+        .status-card small { color: #9ca3af; font-size: 0.85rem; }
+        .info-card { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 1rem; margin-top: 0.75rem; }
+        .info-card h4 { color: #ff6666; margin-bottom: 0.6rem; font-size: 1rem; }
         .rule-list { list-style: none; padding: 0; }
         .rule-list li { padding: 0.4rem 0; display: flex; gap: 0.5rem; align-items: flex-start; }
-        .rule-list li i { color: #ff3333; margin-top: 0.2rem; }
+        .rule-list li i { color: #ff3333; margin-top: 0.25rem; flex-shrink: 0; }
+        .comm-block { background: rgba(0,0,0,0.35); border-radius: 12px; padding: 1rem; margin: 0.75rem 0; border-left: 3px solid #ff3333; font-family: Consolas, 'Courier New', monospace; font-size: 0.9rem; line-height: 1.7; }
+        .comm-block .label { color: #ff6666; font-weight: 700; margin-bottom: 0.25rem; }
+        .prio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 0.75rem; }
+        .prio-card { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 1rem; border: 1px solid rgba(255,51,51,0.15); }
+        .prio-card h4 { color: #ff3333; margin-bottom: 0.5rem; }
         .hint-box { margin-top: 1rem; background: rgba(255,51,51,0.15); border: 1px solid rgba(255,51,51,0.3); border-radius: 12px; padding: 0.8rem 1rem; font-size: 0.95rem; }
+        .summary-list li { padding: 0.35rem 0; }
         footer { background: #06080c; text-align: center; padding: 2rem; margin-top: 3rem; border-top: 1px solid #ff333330; font-size: 0.8rem; color: #6b7280; }
-        @media (max-width: 768px) { .nav-flex { flex-direction: column; text-align: center; } .two-columns { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .nav-flex { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
@@ -57,54 +65,240 @@
 
 <main class="container">
     <div class="hero">
-        <h2>Ambulance <span>Informatie</span></h2>
-        <p><i class="fas fa-info-circle"></i> Porto-beleid · Porto-status · Patiënt behandelen</p>
+        <h2>Basisopleiding <span>Ambulancedienst</span></h2>
+        <p>Portofooncommunicatie · Statussen · Prioriteiten · Patiëntenzorg · Veiligheid · Professioneel gedrag</p>
     </div>
 
     <div class="section">
-        <div class="section-title"><i class="fas fa-broadcast-tower"></i><h3>1. Porto-beleid</h3></div>
+        <div class="section-title"><i class="fas fa-book-medical"></i><h3>Inleiding</h3></div>
+        <p class="intro-text">Als ambulancemedewerker ben je verantwoordelijk voor het verlenen van professionele, veilige en respectvolle zorg aan patiënten. Goede communicatie, correcte portofoonprocedures en aandacht voor veiligheid zijn essentieel voor een succesvolle inzet.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><i class="fas fa-broadcast-tower"></i><h3>1. Portofooncommunicatie</h3></div>
+
         <div class="info-card">
+            <h4>Algemene regels</h4>
             <ul class="rule-list">
-                <li><i class="fas fa-check-circle"></i> Als ambulance wordt porto <strong>kanaal 5</strong> gebruikt.</li>
-                <li><i class="fas fa-check-circle"></i> Je dient ten aller tijden in de porto deel te nemen tijdens uw dienst.</li>
-                <li><i class="fas fa-check-circle"></i> Behoudt dan ook alle rust en zorg voor een professionele porto-communicatie.</li>
-                <li><i class="fas fa-check-circle"></i> Heb respect voor elkaar.</li>
-                <li><i class="fas fa-check-circle"></i> Je hebt ten aller tijden uw roepnummer + naam in de porto.</li>
+                <li><i class="fas fa-check-circle"></i> Spreek altijd duidelijk, rustig en kort.</li>
+                <li><i class="fas fa-check-circle"></i> Denk na voordat je de spreekknop indrukt.</li>
+                <li><i class="fas fa-check-circle"></i> Houd berichten zakelijk en professioneel.</li>
+                <li><i class="fas fa-check-circle"></i> Gebruik standaardtermen en codes zoals afgesproken binnen de organisatie.</li>
+                <li><i class="fas fa-check-circle"></i> Wacht één seconde na het indrukken van de spreekknop voordat je begint te spreken.</li>
+                <li><i class="fas fa-check-circle"></i> Gebruik geen onnodige informatie op het kanaal.</li>
             </ul>
-            <p class="hint-box"><i class="fas fa-terminal"></i> Dit kan door middel van <code>/nameinradio -Roepnummer+naam-</code></p>
+        </div>
+
+        <div class="info-card">
+            <h4>Oproepen van de meldkamer — voorbeeldcommunicatie</h4>
+            <div class="comm-block">
+                <div class="label">Meldkamer:</div>
+                "OC aan 09-00, inzet voor een onwelwording op de Stationsstraat 15 Prio1."
+            </div>
+            <div class="comm-block">
+                <div class="label">Ambulance:</div>
+                "09-00 ontvangen, onderweg Prio1."
+            </div>
+            <div class="comm-block">
+                <div class="label">Bij aankomst:</div>
+                "OC 09-00, Status 3."
+            </div>
+            <div class="comm-block">
+                <div class="label">Bij vertrek naar het ziekenhuis:</div>
+                "OC 09-00 Status 4."
+            </div>
+            <div class="comm-block">
+                <div class="label">Bij aankomst ziekenhuis:</div>
+                "OC 09-00 Status 5."
+            </div>
+            <div class="comm-block">
+                <div class="label">Inzet afgerond:</div>
+                "OC 09-00 Status 6."
+            </div>
         </div>
     </div>
 
     <div class="section">
-        <div class="section-title"><i class="fas fa-radio"></i><h3>2. Porto-status</h3></div>
+        <div class="section-title"><i class="fas fa-radio"></i><h3>2. Statussen</h3></div>
+        <p class="intro-text">De exacte statussen kunnen per regio verschillen, maar veelgebruikte statussen zijn:</p>
         <div class="status-grid">
-            <div class="status-card"><strong>Status 0</strong><br>Aanmelden portofoon <span style="font-size:0.7rem;">(wordt niet gebruikt)</span></div>
-            <div class="status-card"><strong>Status 1</strong><br>Beschikbaar voor een nieuwe melding</div>
-            <div class="status-card"><strong>Status 2</strong><br>Onderweg naar de melding</div>
-            <div class="status-card"><strong>Status 3</strong><br>Ter plaatse aangekomen</div>
-            <div class="status-card"><strong>Status 4</strong><br>Niet beschikbaar <span style="font-size:0.7rem;">(bezig)</span></div>
-            <div class="status-card"><strong>Status 5</strong><br>Spraakaanvraag <span style="font-size:0.7rem;">(verzoek om contact met de meldkamer)</span></div>
-            <div class="status-card"><strong>Status 6</strong><br>Spraakaanvraag urgent <span style="font-size:0.7rem;">(prioriteit)</span></div>
-            <div class="status-card"><strong>Status 7</strong><br>Spraakaanvraag SOS <span style="font-size:0.7rem;">(hierbij mag je direct communiceren in de porto)</span></div>
-            <div class="status-card"><strong>Status 8</strong><br>Buitendienst <span style="font-size:0.7rem;">(einde dienst)</span></div>
+            <div class="status-card"><strong>Status 1</strong> Beschikbaar.</div>
+            <div class="status-card"><strong>Status 2</strong> Onderweg naar inzet.</div>
+            <div class="status-card"><strong>Status 3</strong> Ter plaatse.</div>
+            <div class="status-card"><strong>Status 4</strong> Vervoer patiënt.</div>
+            <div class="status-card"><strong>Status 5</strong> Aangekomen ziekenhuis.</div>
+            <div class="status-card"><strong>Status 6</strong> Vrijgekomen van inzet.<br><small>Hierbij word je dan ook automatisch Status 1 om volgende inzetten te kunnen verkrijgen.</small></div>
+            <div class="status-card"><strong>Status 7</strong> Terug naar post.</div>
+            <div class="status-card"><strong>Status 8</strong> Buiten dienst.<br><small>Hierbij wordt verwacht dat u uit dienst gaat, of maximaal 15 min AFK bent.</small></div>
+        </div>
+        <p class="hint-box"><i class="fas fa-info-circle"></i> Controleer altijd de geldende statussen binnen je eigen dienst.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><i class="fas fa-exclamation-triangle"></i><h3>3. Prioriteiten</h3></div>
+        <div class="prio-grid">
+            <div class="prio-card">
+                <h4>Prioriteit 1 (Prio1)</h4>
+                <ul class="rule-list">
+                    <li><i class="fas fa-check-circle"></i> Spoedrit met optische en geluidssignalen.</li>
+                    <li><i class="fas fa-check-circle"></i> Mogelijk levensbedreigende situatie.</li>
+                    <li><i class="fas fa-check-circle"></i> Snelste veilige aanrijroute gebruiken.</li>
+                </ul>
+                <h4 style="margin-top:0.75rem;font-size:0.9rem;color:#fca5a5;">Voorbeelden</h4>
+                <ul class="rule-list">
+                    <li><i class="fas fa-circle" style="font-size:0.45rem;margin-top:0.55rem;"></i> Hartstilstand</li>
+                    <li><i class="fas fa-circle" style="font-size:0.45rem;margin-top:0.55rem;"></i> Ernstige ademhalingsproblemen</li>
+                    <li><i class="fas fa-circle" style="font-size:0.45rem;margin-top:0.55rem;"></i> Ernstige ongevallen</li>
+                </ul>
+            </div>
+            <div class="prio-card">
+                <h4>Prioriteit 2 (Prio2)</h4>
+                <ul class="rule-list">
+                    <li><i class="fas fa-check-circle"></i> Spoed zonder optische en geluidssignalen.</li>
+                    <li><i class="fas fa-check-circle"></i> Medische hulp noodzakelijk, maar geen directe levensbedreiging.</li>
+                </ul>
+                <h4 style="margin-top:0.75rem;font-size:0.9rem;color:#fca5a5;">Voorbeelden</h4>
+                <ul class="rule-list">
+                    <li><i class="fas fa-circle" style="font-size:0.45rem;margin-top:0.55rem;"></i> Koorts met verslechtering</li>
+                    <li><i class="fas fa-circle" style="font-size:0.45rem;margin-top:0.55rem;"></i> Matige pijnklachten</li>
+                    <li><i class="fas fa-circle" style="font-size:0.45rem;margin-top:0.55rem;"></i> Niet-acute verwondingen</li>
+                </ul>
+            </div>
+            <div class="prio-card">
+                <h4>Prioriteit 3 (Prio3)</h4>
+                <ul class="rule-list">
+                    <li><i class="fas fa-check-circle"></i> Gepland of niet-spoedeisend vervoer.</li>
+                    <li><i class="fas fa-check-circle"></i> Geen acute medische noodzaak.</li>
+                </ul>
+                <h4 style="margin-top:0.75rem;font-size:0.9rem;color:#fca5a5;">Voorbeelden</h4>
+                <ul class="rule-list">
+                    <li><i class="fas fa-circle" style="font-size:0.45rem;margin-top:0.55rem;"></i> Gepland ziekenhuisvervoer</li>
+                    <li><i class="fas fa-circle" style="font-size:0.45rem;margin-top:0.55rem;"></i> Controleafspraken</li>
+                </ul>
+            </div>
         </div>
     </div>
 
     <div class="section">
-        <div class="section-title"><i class="fas fa-user-injured"></i><h3>3. Patiënt behandelen</h3></div>
+        <div class="section-title"><i class="fas fa-user-injured"></i><h3>4. Communicatie met patiënten</h3></div>
+
         <div class="info-card">
+            <h4>Eerste contact</h4>
+            <p class="intro-text">Stel jezelf altijd voor:</p>
+            <div class="comm-block">"Goedemiddag, ik ben [naam], ambulancemedewerker. Wij komen u helpen."</div>
+        </div>
+
+        <div class="info-card">
+            <h4>Luisteren</h4>
             <ul class="rule-list">
-                <li><i class="fas fa-check-circle"></i> Behandel een patiënt ten aller tijden met respect.</li>
-                <li><i class="fas fa-check-circle"></i> Probeer de persoon aan te spreken en een band op te bouwen.</li>
-                <li><i class="fas fa-check-circle"></i> Behandel de patiënt dan op een leuke en uitgebreide manier.</li>
-                <li><i class="fas fa-check-circle"></i> Het behandelen van patiënten kan via het <strong>F6-menu</strong>.</li>
+                <li><i class="fas fa-check-circle"></i> Laat de patiënt uitspreken.</li>
+                <li><i class="fas fa-check-circle"></i> Toon respect en begrip.</li>
+                <li><i class="fas fa-check-circle"></i> Gebruik eenvoudige taal.</li>
+                <li><i class="fas fa-check-circle"></i> Controleer of de patiënt je begrijpt.</li>
             </ul>
         </div>
+
+        <div class="info-card">
+            <h4>Rust uitstralen</h4>
+            <p class="intro-text">Patiënten ervaren vaak angst of stress.</p>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Spreek kalm.</li>
+                <li><i class="fas fa-check-circle"></i> Maak oogcontact.</li>
+                <li><i class="fas fa-check-circle"></i> Leg uit wat je gaat doen.</li>
+                <li><i class="fas fa-check-circle"></i> Geef duidelijke informatie.</li>
+            </ul>
+            <div class="comm-block" style="margin-top:0.75rem;">
+                <div class="label">Voorbeeld:</div>
+                "Ik ga nu uw bloeddruk meten. Dit duurt maar een paar seconden."
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h4>Respectvolle benadering</h4>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Respecteer privacy.</li>
+                <li><i class="fas fa-check-circle"></i> Houd rekening met culturele verschillen.</li>
+                <li><i class="fas fa-check-circle"></i> Behandel iedere patiënt gelijkwaardig.</li>
+                <li><i class="fas fa-check-circle"></i> Bespreek medische informatie niet met onbevoegden.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><i class="fas fa-shield-alt"></i><h3>5. Veiligheid</h3></div>
+
+        <div class="info-card">
+            <h4>Eigen veiligheid eerst</h4>
+            <p class="intro-text">Een hulpverlener die zelf slachtoffer wordt, kan geen hulp meer verlenen. Controleer altijd:</p>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Verkeer</li>
+                <li><i class="fas fa-check-circle"></i> Brand</li>
+                <li><i class="fas fa-check-circle"></i> Elektriciteit</li>
+                <li><i class="fas fa-check-circle"></i> Gevaarlijke stoffen</li>
+                <li><i class="fas fa-check-circle"></i> Geweld of agressie</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h4>Veilig werken op incidentlocaties</h4>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Draag de juiste persoonlijke beschermingsmiddelen (PBM).</li>
+                <li><i class="fas fa-check-circle"></i> Gebruik veiligheidshesjes langs wegen.</li>
+                <li><i class="fas fa-check-circle"></i> Volg aanwijzingen van politie en brandweer.</li>
+                <li><i class="fas fa-check-circle"></i> Plaats voertuigen zodanig dat een veilige werkruimte ontstaat.</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h4>Infectiepreventie</h4>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Handhygiëne toepassen.</li>
+                <li><i class="fas fa-check-circle"></i> Handschoenen dragen indien nodig.</li>
+                <li><i class="fas fa-check-circle"></i> Mondmaskers gebruiken volgens protocol.</li>
+                <li><i class="fas fa-check-circle"></i> Materialen reinigen na gebruik.</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h4>Omgaan met agressie</h4>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Blijf rustig.</li>
+                <li><i class="fas fa-check-circle"></i> Houd voldoende afstand.</li>
+                <li><i class="fas fa-check-circle"></i> Vermijd discussies.</li>
+                <li><i class="fas fa-check-circle"></i> Vraag indien nodig ondersteuning van politie.</li>
+                <li><i class="fas fa-check-circle"></i> Trek je terug wanneer de situatie onveilig wordt.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><i class="fas fa-user-tie"></i><h3>6. Professioneel gedrag</h3></div>
+        <p class="intro-text">Van iedere ambulancemedewerker wordt verwacht dat hij of zij:</p>
+        <ul class="rule-list">
+            <li><i class="fas fa-check-circle"></i> Professioneel handelt.</li>
+            <li><i class="fas fa-check-circle"></i> Respectvol communiceert.</li>
+            <li><i class="fas fa-check-circle"></i> Vertrouwelijk omgaat met informatie.</li>
+            <li><i class="fas fa-check-circle"></i> Samenwerkt met collega's en ketenpartners.</li>
+            <li><i class="fas fa-check-circle"></i> De geldende protocollen volgt.</li>
+            <li><i class="fas fa-check-circle"></i> Blijft leren en oefenen.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><i class="fas fa-clipboard-check"></i><h3>Samenvatting</h3></div>
+        <p class="intro-text">Een goede ambulancemedewerker:</p>
+        <ul class="rule-list summary-list">
+            <li><i class="fas fa-check"></i> Communiceert duidelijk via de portofoon.</li>
+            <li><i class="fas fa-check"></i> Kent de statussen en prioriteiten.</li>
+            <li><i class="fas fa-check"></i> Behandelt patiënten respectvol.</li>
+            <li><i class="fas fa-check"></i> Werkt veilig en professioneel.</li>
+            <li><i class="fas fa-check"></i> Houdt altijd rekening met de eigen veiligheid, die van collega's en die van patiënten.</li>
+        </ul>
     </div>
 </main>
 
 <footer>
-    <p>© 2026 Overheid Portaal | Ambulance Divisie</p>
+    <p>© 2026 Overheid Portaal | Ambulance Divisie — Basisopleiding Ambulancedienst</p>
 </footer>
 <script>requireAuth('ambulance');</script>
 </body>

@@ -167,6 +167,96 @@
             color: #00ff88;
             font-size: 0.85rem;
         }
+        .training-card .doc-link {
+            display: inline-block;
+            margin-top: 0.6rem;
+            color: #ff6666;
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+        .training-card .doc-link:hover { text-decoration: underline; }
+        .intro-text { color: #cbd5e1; margin-bottom: 0.75rem; }
+        .quote-box {
+            background: rgba(255,51,51,0.12);
+            border: 1px solid rgba(255,51,51,0.35);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            font-style: italic;
+            color: #fca5a5;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        .prio-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 18px;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-left: 4px solid #ff3333;
+        }
+        .prio-block.prio-2 { border-left-color: #ffaa33; }
+        .prio-block.prio-3 { border-left-color: #60a5fa; }
+        .prio-block h4 {
+            color: #ff3333;
+            margin-bottom: 0.6rem;
+            font-size: 1.15rem;
+        }
+        .prio-block.prio-2 h4 { color: #ffaa33; }
+        .prio-block.prio-3 h4 { color: #60a5fa; }
+        .prio-block h5 {
+            color: #fca5a5;
+            margin: 0.9rem 0 0.4rem;
+            font-size: 0.95rem;
+        }
+        .prio-block.prio-2 h5 { color: #fcd34d; }
+        .prio-block.prio-3 h5 { color: #93c5fd; }
+        .rule-list { list-style: none; padding: 0; }
+        .rule-list li {
+            padding: 0.35rem 0;
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+            color: #ccc;
+            font-size: 0.92rem;
+        }
+        .rule-list li i { color: #ff3333; margin-top: 0.25rem; flex-shrink: 0; }
+        .example-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .example-card strong { color: #eef2ff; display: block; margin-bottom: 0.25rem; }
+        .example-card span { color: #9ca3af; font-size: 0.88rem; }
+        .numbered-list {
+            list-style: none;
+            counter-reset: kern;
+            padding: 0;
+        }
+        .numbered-list li {
+            counter-increment: kern;
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+            color: #ccc;
+        }
+        .numbered-list li::before {
+            content: counter(kern);
+            position: absolute;
+            left: 0;
+            top: 0.45rem;
+            width: 1.4rem;
+            height: 1.4rem;
+            background: #ff333320;
+            color: #ff6666;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slot-text { color: #cbd5e1; line-height: 1.7; }
         /* Spreadsheet embed */
         .spreadsheet-container {
             margin: 1rem 0;
@@ -265,6 +355,7 @@
                 <h3><i class="fas fa-circle" style="color: #ffaa33; font-size: 0.8rem;"></i> Verpleegkundige</h3>
                 <div class="rank">★ Rijopleiding spoed</div>
                 <ul><li>Prio-ritten, sirenes, veilige routes ziekenhuis</li></ul>
+                <a href="#rijopleiding-spoed" class="doc-link"><i class="fas fa-arrow-down"></i> Volledige opleiding lezen</a>
                 <div class="beloning">🎁 Spoedvoertuig certificaat</div>
                 
                 <div class="rank" style="margin-top: 10px;">★ Reanimatie & AED</div>
@@ -301,6 +392,87 @@
                 <div class="beloning">🎁 Medicatie-protocol certificaat</div>
             </div>
         </div>
+    </div>
+
+    <div class="section" id="rijopleiding-spoed">
+        <div class="section-title">
+            <i class="fas fa-car-burst"></i>
+            <h3>🚑 Rijopleiding spoed — Prioritair rijden</h3>
+        </div>
+
+        <h4 style="color:#ff6666;margin-bottom:0.5rem;">Doelstelling</h4>
+        <p class="intro-text">Prioritair rijden is een specialistische rijvaardigheid die wordt toegepast om spoedeisende medische hulp tijdig te kunnen verlenen. Het gebruik van een toegewezen prioriteit stelt de ambulancebemanning in staat de juiste balans te vinden tussen snelheid, medische urgentie en verkeersveiligheid.</p>
+        <p class="intro-text">De toegewezen prioriteit wordt vastgesteld door de meldkamer Ambulancezorg (MKA/OC) op basis van de medische urgentie van de melding. De chauffeur dient zijn rijgedrag voortdurend af te stemmen op de toegewezen prioriteit, de verkeerssituatie, weersomstandigheden en de veiligheid van alle betrokkenen.</p>
+        <p class="quote-box">"Zo snel als noodzakelijk, zo veilig als mogelijk."</p>
+
+        <div class="prio-block prio-1">
+            <h4>Prio 1 – Hoogste urgentie</h4>
+            <h5>Omschrijving</h5>
+            <p class="intro-text">Een Prio 1-rit wordt ingezet wanneer sprake is van een mogelijke of vastgestelde levensbedreigende situatie waarbij onmiddellijke medische interventie noodzakelijk is. Het doel is het zo snel mogelijk bereiken van de patiënt of zorglocatie, waarbij gebruik wordt gemaakt van de wettelijke bevoegdheden die gelden voor voorrangsvoertuigen.</p>
+            <h5>Gebruik van optische en geluidssignalen (OGS)</h5>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Blauwe zwaailichten: verplicht.</li>
+                <li><i class="fas fa-check-circle"></i> Tweetonige hoorn (sirene): verplicht.</li>
+                <li><i class="fas fa-check-circle"></i> Status: voorrangsvoertuig conform de geldende wet- en regelgeving.</li>
+            </ul>
+            <h5>Rijgedrag</h5>
+            <p class="intro-text">Hoewel de chauffeur gebruik mag maken van vrijstellingen binnen de verkeerswetgeving, blijft hij te allen tijde verantwoordelijk voor de verkeersveiligheid. Bij kruispunten, verkeerslichten, oversteekplaatsen en andere potentieel gevaarlijke situaties dient de snelheid zodanig te worden aangepast dat veilig kan worden gestopt indien nodig. Andere weggebruikers zijn niet verplicht onmiddellijk plaats te maken wanneer dit onveilig is — anticipeer voortdurend op onverwachte verkeersreacties.</p>
+            <h5>Voorbeelden</h5>
+            <div class="example-card"><strong>Reanimatiemelding</strong><span>Melding van een bewusteloze persoon zonder normale ademhaling. Reden: overlevingskans neemt per minuut af zonder directe hulpverlening.</span></div>
+            <div class="example-card"><strong>Ernstige respiratoire insufficiëntie</strong><span>Patiënten met ernstige benauwdheid of dreigend respiratoir falen. Reden: directe bedreiging van vitale functies.</span></div>
+            <div class="example-card"><strong>Ernstig trauma</strong><span>Verkeersongeval met mogelijk ernstig letsel, beknelling of hoogenergetisch trauma. Reden: verhoogde kans op levensbedreigende verwondingen.</span></div>
+            <div class="example-card"><strong>Bewusteloosheid van onbekende oorzaak</strong><span>Patiënt reageert niet op aanspreken of pijnprikkels. Reden: oorzaak kan acuut levensbedreigend zijn.</span></div>
+        </div>
+
+        <div class="prio-block prio-2">
+            <h4>Prio 2 – Spoedeisende hulpverlening</h4>
+            <h5>Omschrijving</h5>
+            <p class="intro-text">Spoedeisende medische hulpvraag zonder directe aanwijzingen voor levensgevaar. Snelle beoordeling en behandeling zijn gewenst, maar geen inzet als voorrangsvoertuig.</p>
+            <h5>Gebruik van optische en geluidssignalen</h5>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Blauwe zwaailichten: niet toegestaan (bij druk verkeer wel).</li>
+                <li><i class="fas fa-check-circle"></i> Tweetonige hoorn: niet toegestaan.</li>
+                <li><i class="fas fa-check-circle"></i> Status: regulier verkeersdeelnemer.</li>
+            </ul>
+            <h5>Rijgedrag</h5>
+            <p class="intro-text">Vlot, anticiperend en doelmatig binnen de geldende verkeersregels. Geen vrijstellingen — alle verkeersregels blijven onverkort van kracht.</p>
+            <h5>Voorbeelden</h5>
+            <div class="example-card"><strong>Mogelijke fractuur</strong><span>Vermoedelijke botbreuk na val. Medische beoordeling noodzakelijk, geen direct levensgevaar.</span></div>
+            <div class="example-card"><strong>Hevige buikklachten</strong><span>Acute buikpijn zonder shock of circulatoire instabiliteit. Spoedige beoordeling, geen onmiddellijke levensreddende interventie.</span></div>
+            <div class="example-card"><strong>Val van een oudere patiënt</strong><span>Kan niet zelfstandig overeind komen. Letsel of complicaties mogelijk.</span></div>
+            <div class="example-card"><strong>Toename van ziekteverschijnselen</strong><span>Verslechterende gezondheid zonder acute bedreiging van vitale functies.</span></div>
+        </div>
+
+        <div class="prio-block prio-3">
+            <h4>Prio 3 – Niet-spoedeisende ambulancezorg</h4>
+            <h5>Omschrijving</h5>
+            <p class="intro-text">Geen spoedeisendheid of acute medische problematiek. Ritten zonder tijdsdruk, binnen de normale verkeersstroom.</p>
+            <h5>Gebruik van optische en geluidssignalen</h5>
+            <ul class="rule-list">
+                <li><i class="fas fa-check-circle"></i> Blauwe zwaailichten: niet toegestaan.</li>
+                <li><i class="fas fa-check-circle"></i> Tweetonige hoorn: niet toegestaan.</li>
+                <li><i class="fas fa-check-circle"></i> Status: regulier verkeersdeelnemer.</li>
+            </ul>
+            <h5>Rijgedrag</h5>
+            <p class="intro-text">Volledig aan de verkeerswetgeving houden en defensief rijgedrag toepassen.</p>
+            <h5>Voorbeelden</h5>
+            <div class="example-card"><strong>Gepland patiëntenvervoer</strong><span>Vervoer naar ziekenhuis voor onderzoek of behandeling. Geen acute medische noodzaak.</span></div>
+            <div class="example-card"><strong>Ontslagvervoer</strong><span>Terugkeer na behandeling naar woonomgeving of zorginstelling. Medische toestand stabiel.</span></div>
+            <div class="example-card"><strong>Niet-spoedeisende overplaatsing</strong><span>Transport tussen zorginstellingen zonder medische urgentie.</span></div>
+        </div>
+
+        <h4 style="color:#ff6666;margin:1.5rem 0 0.75rem;">Kernprincipes van prioritair rijden</h4>
+        <ol class="numbered-list">
+            <li>Verkeersveiligheid heeft altijd prioriteit boven tijdswinst.</li>
+            <li>Het gebruik van OGS ontslaat de chauffeur niet van zijn verantwoordelijkheid.</li>
+            <li>Iedere verkeerssituatie vereist een eigen risico-inschatting.</li>
+            <li>Kruispunten vormen het grootste risico tijdens prioritaire ritten en verdienen extra aandacht.</li>
+            <li>Continu vooruitkijken, risico's herkennen en tijdig anticiperen.</li>
+            <li>Doel is niet hoge snelheid, maar veilig en verantwoord verkorten van de aanrijtijd.</li>
+        </ol>
+
+        <h4 style="color:#ff6666;margin:1.5rem 0 0.75rem;">Slotbeschouwing</h4>
+        <p class="slot-text">Professioneel ambulancechauffeurschap vraagt om meer dan voertuigbeheersing alleen. Prioritair rijden vereist voortdurende situational awareness, risicoanalyse, besluitvorming en verkeersinzicht. De chauffeur draagt verantwoordelijkheid voor de veiligheid van de patiënt, de bemanning en alle overige weggebruikers. Een veilige aankomst blijft daarom altijd belangrijker dan enkele seconden tijdswinst.</p>
     </div>
 
 </main>
